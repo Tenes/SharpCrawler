@@ -1,0 +1,1 @@
+d:\documents\visual studio 2017\Projects\SharpCrawler\SharpCrawler\obj\Debug\SharpCrawler.csprojResolveAssemblyReference.cache
