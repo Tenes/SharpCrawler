@@ -35,7 +35,7 @@ namespace SharpCrawler
                 if(ButtonText.Length > 10)
                 {
                     this.ButtonText = this.ButtonText.Replace(' ', '\n');
-                    this.TextPosition = new Vector2(this.ButtonSkin.GetPositionVector().X - this.ButtonSkin.GetSpriteWidth() / 2 + 15, this.ButtonSkin.GetPositionVector().Y - 10);
+                    this.TextPosition = new Vector2(this.ButtonSkin.GetPositionVector().X - this.ButtonSkin.Width / 2 + 15, this.ButtonSkin.GetPositionVector().Y - 10);
                 }
             }
             else
@@ -46,11 +46,11 @@ namespace SharpCrawler
                     if ((i + 1) % 2 == 0)
                         this.ButtonText += "\n";
                 }
-                this.TextPosition = new Vector2(this.ButtonSkin.GetPositionVector().X - this.ButtonSkin.GetSpriteWidth()/2 + 15, this.ButtonSkin.GetPositionVector().Y - 10);
+                this.TextPosition = new Vector2(this.ButtonSkin.GetPositionVector().X - this.ButtonSkin.Width/2 + 15, this.ButtonSkin.GetPositionVector().Y - 10);
             }
             this.ButtonColor = Color.Black;
-            this.Hitbox = new Rectangle((int)(x - this.ButtonSkin.GetSpriteWidth()/2), (int)(y - this.ButtonSkin.GetSpriteHeight()/2),
-                                        this.ButtonSkin.GetSpriteWidth(), this.ButtonSkin.GetSpriteHeight());
+            this.Hitbox = new Rectangle((int)(x - this.ButtonSkin.Width/2), (int)(y - this.ButtonSkin.Height/2),
+                                        this.ButtonSkin.Width, this.ButtonSkin.Height);
             this.OnClickEvent = onClickEvent;
 
         }

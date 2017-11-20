@@ -8,6 +8,9 @@ namespace SharpCrawler
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Input generalInput;
+        Sprite test;
+        
 
         public SharpCrawl()
         {
@@ -18,25 +21,26 @@ namespace SharpCrawler
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
+            this.generalInput = new Input(Keyboard.GetState(), Keyboard.GetState(), Mouse.GetState(), Mouse.GetState());
+            this.test = new Sprite("TileSet", 100, 100, Ressources.CharacterN1(), 3f);
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            Ressources.LoadSprites(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            this.generalInput.SetCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
-            // TODO: Add your update logic here
+            this.test.Update(0, 0);
 
+            this.generalInput.SetOldStates(Keyboard.GetState(), Mouse.GetState());
             base.Update(gameTime);
         }
 
@@ -44,7 +48,9 @@ namespace SharpCrawler
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            this.test.DrawFromSpriteSheet(this.spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

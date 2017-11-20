@@ -9,9 +9,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SharpCrawler
 {
-    public class Ressources
+    public static class Ressources
     {
         public static Dictionary<string, Texture2D> sprites;
+        private const byte tileSize = 16;
 
         //METHODS
         public static void LoadSprites(ContentManager content)
@@ -20,15 +21,19 @@ namespace SharpCrawler
 
             List<string> spr = new List<string>()
             {
-
+                "TextInput",
+                "TileSet",
+                "Gear"
             };
 
             foreach (string sprite in spr)
             {
                 sprites.Add(sprite, content.Load<Texture2D>($"spr/{sprite}"));
             }
-
         }
-
+        public static Rectangle CharacterN1()
+        {
+            return new Rectangle(2*tileSize, 13*tileSize, tileSize, tileSize);
+        } 
     }
 }

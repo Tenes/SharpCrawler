@@ -15,22 +15,37 @@ namespace SharpCrawler
         private KeyboardState OldState;
         private KeyboardState CurrentState;
         
-        public KeyboardState GetOldState()
+        public void SetOldStates(KeyboardState oldState, MouseState oldClick)
+        {
+            this.OldState = oldState;
+            this.OldClick = oldClick;
+        }
+        public void SetCurrentStates(KeyboardState currentState, MouseState currentClick)
+        {
+            this.CurrentState = currentState;
+            this.CurrentClick = currentClick;
+        }
+        public KeyboardState GetOldKeyboardState()
         {
             return this.OldState;
         }
-        public KeyboardState GetCurrentState()
+        public KeyboardState GetKeyboardCurrentState()
         {
             return this.CurrentState;
         }
+        public MouseState GetOldMouseState()
+        {
+            return this.OldClick;
+        }
+        public MouseState GetMouseCurrentState()
+        {
+            return this.CurrentClick;
+        }
         //CONSTRUCTOR
-        public Input(KeyboardState oldState, KeyboardState currentState)
+        public Input(KeyboardState oldState, KeyboardState currentState, MouseState oldClick, MouseState currentClick)
         {
             this.OldState = oldState;
             this.CurrentState = currentState;
-        }
-        public Input(MouseState oldClick, MouseState currentClick)
-        {
             this.OldClick = oldClick;
             this.CurrentClick = currentClick;
         }

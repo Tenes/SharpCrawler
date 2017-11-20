@@ -13,3 +13,15 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin font/MainFont.spritefont
+/copy:font/MainFont.spritefont
+
+#begin spr/TextInput.png
+/copy:spr/TextInput.png
+
+#begin spr/TileSet.png
+/copy:spr/TileSet.png
+
+#begin spr/Gear.png
+/copy:spr/Gear.png
+
