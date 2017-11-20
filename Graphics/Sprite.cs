@@ -16,7 +16,6 @@ namespace SharpCrawler
         private Color Color;
         private float Rotation;
         private Vector2 Origin;
-        private Rectangle Hitbox;
         private float Scale;
         private Rectangle Destination;
         public SpriteEffects Effects { get; set; }
@@ -60,8 +59,6 @@ namespace SharpCrawler
             this.Rotation = 0; //NO USE FOR NOW
             this.Effects = SpriteEffects.None; //NO USE FOR NOW
             this.AnimationTime = 200;
-            this.Hitbox = new Rectangle((int)(x - this.SpriteWidth / 2), (int)(y - this.SpriteHeight / 2),
-                                        this.SpriteWidth, this.SpriteHeight);
             this.Scale = scale;
             this.Destination = new Rectangle(x, y, destinationWidth, destinationHeight);
             this.Origin = new Vector2(source.Width/2, source.Height/2);
