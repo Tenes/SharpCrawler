@@ -9,6 +9,7 @@ namespace SharpCrawler
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Input generalInput;
+        CameraClass gameCamera;
         MainScene principalScene;
         
 
@@ -23,7 +24,8 @@ namespace SharpCrawler
         {
             base.Initialize();
             this.generalInput = new Input(Keyboard.GetState(), Keyboard.GetState(), Mouse.GetState(), Mouse.GetState());
-            this.principalScene = new MainScene(); 
+            this.principalScene = new MainScene();
+            this.gameCamera = new CameraClass(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, this.principalScene.GetPlayer());
         }
 
         protected override void LoadContent()
@@ -38,17 +40,17 @@ namespace SharpCrawler
                 Exit();
             this.generalInput.SetCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
-            this.principalScene.Update(gameTime, this.generalInput);
+            this.principalScene.Update(gameTime, this.gameCamera, this.generalInput);
 
-            this.generalInput.SetOldStates(Keyboard.GetState(), Mouse.GetState());
+            this.generalInput.SetOldStates(this.generalInput.GetKeyboardCurrentState(), this.generalInput.GetMouseCurrentState());
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: this.gameCamera.GetMatrix());
             this.principalScene.Draw(this.spriteBatch, this.Content);
             spriteBatch.End();
 

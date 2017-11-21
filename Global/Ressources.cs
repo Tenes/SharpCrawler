@@ -12,7 +12,6 @@ namespace SharpCrawler
     public static class Ressources
     {
         public static Dictionary<string, Texture2D> sprites;
-        private const byte tileSize = 16;
 
         //METHODS
         public static void LoadSprites(ContentManager content)
@@ -33,7 +32,23 @@ namespace SharpCrawler
         }
         public static Rectangle CharacterN1()
         {
-            return new Rectangle(2*tileSize, 13*tileSize, tileSize, tileSize);
+            return new Rectangle(2*Settings.tileSize, 13*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle Wall1()
+        {
+            return new Rectangle(0*Settings.tileSize + 1, 0*Settings.tileSize, Settings.tileSize, 2*Settings.tileSize);
+        } 
+        public static Rectangle Wall2()
+        {
+            return new Rectangle(1*Settings.tileSize, 0*Settings.tileSize, Settings.tileSize, 2*Settings.tileSize);
+        } 
+        public static Rectangle Wall3()
+        {
+            return new Rectangle(2*Settings.tileSize, 0*Settings.tileSize, Settings.tileSize, 2*Settings.tileSize);
+        } 
+        public static Rectangle WallFluid1()
+        {
+            return new Rectangle(3*Settings.tileSize, 3*Settings.tileSize, Settings.tileSize, 2*Settings.tileSize);
         } 
     }
 }

@@ -12,13 +12,17 @@ namespace SharpCrawler
     public class MainScene
     {
         private EntityPlayer Player;
+        public EntityPlayer GetPlayer()
+        {
+            return this.Player;
+        }
         public MainScene()
         {
-            this.Player = new EntityPlayer(new Sprite("TileSet", 100, 100, Ressources.CharacterN1(), 3f), "Johny");
+            this.Player = EntityFactory.PlayerBuilder(Ressources.CharacterN1(), 100, 100, "John", 3f);
         }
-        public void Update(GameTime gameTime, Input generalInput)
+        public void Update(GameTime gameTime, CameraClass camera, Input generalInput)
         {
-            this.Player.Update(gameTime, generalInput, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            this.Player.Update(gameTime, camera, generalInput, (float)gameTime.ElapsedGameTime.TotalSeconds);
         }
         public void Draw(SpriteBatch spriteBatch, ContentManager Content)
         {

@@ -49,21 +49,15 @@ namespace SharpCrawler
         }
 
         //CONSTRUCTOR
-        public Hitbox(Entity entity)
+        public Hitbox(Entity entity, float hitboxWidth = 0, float hitboxHeight = 0, float relativeX = 0, float relativeY = 0)
         {
-            this.position = new Vector2(-entity.GetTexture().Width / 2, -entity.GetTexture().Height / 2);
-            this.hitboxWidth = entity.GetTexture().Width;
-            this.hitboxHeight = entity.GetTexture().Height;
+            float scale = entity.GetTexture().GetScale();
+            this.position = (relativeX == 0 && relativeY == 0) ? new Vector2(-Settings.tileSize * scale / 2, -Settings.tileSize * scale / 2) 
+                        : new Vector2(relativeX, relativeY);
+            this.hitboxWidth = (hitboxWidth == 0) ? Settings.tileSize * scale : hitboxWidth;
+            this.hitboxHeight = (hitboxHeight == 0) ? Settings.tileSize * scale : hitboxHeight;
             this.center = new Vector2(0, 0);
             this.holder = entity;
-        }
-
-        public Hitbox(float hitboxWidth, float hitboxHeight)
-        {
-            this.position = new Vector2(0, 0);
-            this.hitboxWidth = hitboxWidth;
-            this.hitboxHeight = hitboxHeight;
-            this.center = new Vector2(0, 0);
         }
 
         //METHODS
@@ -76,8 +70,9 @@ namespace SharpCrawler
         }
 
         //UPDATE & DRAW
-        public void Update(float delta)
+        public void DrawDebug(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(Ressources.sprites["TextInput"], new Rectangle((int)(this.holder.GetOffsetPositionX() + this.position.X), (int)(this.holder.GetOffsetPositionY() + this.position.Y), (int)hitboxWidth, (int)hitboxHeight), null, Color.Red, 0, new Vector2(0,0),SpriteEffects.None, 1);
         }
     }
 }

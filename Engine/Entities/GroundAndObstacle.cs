@@ -14,15 +14,8 @@ namespace SharpCrawler
         private bool staticObject;
 
         //CONSTRUCTOR
-        public GroundAndObstacle(Sprite objectTexture, bool staticObject = true)
-            : base(objectTexture)
-        {
-            this.sprite = objectTexture;
-            this.staticObject = staticObject;
-        }
-
-        public GroundAndObstacle(Sprite objectTexture, float hitboxWidth, float hitboxHeight, bool staticObject = true)
-                : base(objectTexture, hitboxWidth, hitboxHeight)
+        public GroundAndObstacle(Sprite objectTexture, bool realHitbox, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool staticObject = true)
+                : base(objectTexture, realHitbox,  hitboxWidth, hitboxHeight, relativeX, relativeY)
         {
             this.sprite = objectTexture;
             this.staticObject = staticObject;
@@ -39,7 +32,14 @@ namespace SharpCrawler
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.sprite.Draw(spriteBatch);
+            this.hitbox.DrawDebug(spriteBatch);
+            this.sprite.DrawFromSpriteSheet(spriteBatch);
+        }
+        
+        public void DrawToDestination(SpriteBatch spriteBatch)
+        {
+            this.hitbox.DrawDebug(spriteBatch);
+            this.sprite.DrawFromSpriteSheetToDestination(spriteBatch);
         }
     }
 }

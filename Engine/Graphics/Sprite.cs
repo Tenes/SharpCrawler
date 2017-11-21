@@ -34,6 +34,10 @@ namespace SharpCrawler
         {
             return this.Color;
         }
+        public void SetEffect(SpriteEffects effects)
+        {
+            this.Effects = effects;
+        }
         public Vector2 GetPositionVector()
         {
             return this.Position;
@@ -45,6 +49,10 @@ namespace SharpCrawler
         public float GetPositionY()
         {
             return this.Position.Y;
+        }
+        public float GetScale()
+        {
+            return this.Scale;
         }
 
         //CONSTRUCTOR
@@ -103,15 +111,15 @@ namespace SharpCrawler
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.Position, null, this.Color, this.Rotation, this.Origin, 1f, this.Effects, 0f);
+            spriteBatch.Draw(this.Texture, this.Position, null, this.Color, this.Rotation, this.Origin, 1f, this.Effects, 0);
         }
         public void DrawFromSpriteSheet(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.Position, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Scale, this.Effects, 0f);
+            spriteBatch.Draw(this.Texture, this.Position, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Scale, this.Effects, 0);
         }
         public void DrawFromSpriteSheetToDestination(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.Destination, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Effects, 0f);
+            spriteBatch.Draw(this.Texture, this.Destination, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Effects, 0);
         }
     }
 }

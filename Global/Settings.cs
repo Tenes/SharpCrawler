@@ -2,7 +2,7 @@
 
 namespace SharpCrawler
 {
-    public class Settings
+    public static class Settings
     {
 
         public static float pixelRatio = 1f;
@@ -13,5 +13,6 @@ namespace SharpCrawler
 
         public static bool fullscreen = false;
         public static bool visibleMouse = true;
+        public static int tileSize = 16;
     }
 }
