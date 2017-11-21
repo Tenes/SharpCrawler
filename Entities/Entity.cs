@@ -14,7 +14,6 @@ namespace SharpCrawler
         //FIELDS
         protected Sprite sprite;
         protected Vector2 position;
-        protected Vector2 offsetPosition;
         protected Vector2 velocity;
         protected float friction;
 
@@ -30,23 +29,23 @@ namespace SharpCrawler
         {
             return this.position.Y;
         }
-        public void SetOffsetPosition(int x, int y)
-        {
-            this.offsetPosition.X = x;
-            this.offsetPosition.Y = y;
-        }
-        public float GetOffsetPositionX()
-        {
-            return this.offsetPosition.X;
-        }
-        public float GetOffsetPositionY()
-        {
-            return this.offsetPosition.Y;
-        }
-        public Vector2 GetOffsetPosition()
-        {
-            return this.offsetPosition;
-        }
+        // public void SetOffsetPosition(int x, int y)
+        // {
+        //     this.offsetPosition.X = x;
+        //     this.offsetPosition.Y = y;
+        // }
+        // public float GetOffsetPositionX()
+        // {
+        //     return this.offsetPosition.X;
+        // }
+        // public float GetOffsetPositionY()
+        // {
+        //     return this.offsetPosition.Y;
+        // }
+        // public Vector2 GetOffsetPosition()
+        // {
+        //     return this.offsetPosition;
+        // }
         public void SetVelocityX(float value)
         {
             this.velocity.X = value;
@@ -68,8 +67,8 @@ namespace SharpCrawler
         protected Entity(Sprite sprite)
         {
             this.sprite = sprite;
-            this.position = new Vector2(0, 0);
-            this.offsetPosition = new Vector2(this.sprite.GetPositionX(), this.sprite.GetPositionY());
+            this.position = new Vector2(this.sprite.GetPositionX(), this.sprite.GetPositionY());
+            //this.offsetPosition = new Vector2(this.sprite.GetPositionX(), this.sprite.GetPositionY());
             this.velocity = new Vector2(0, 0);
             this.friction = 0.9f;
             this.currentState = null;
@@ -78,13 +77,11 @@ namespace SharpCrawler
         protected Entity(Sprite sprite, float hitboxWidth, float hitboxHeight)
         {
             this.sprite = sprite;
-            this.position = new Vector2(0, 0);
-            this.offsetPosition = new Vector2(this.sprite.GetPositionX(), this.sprite.GetPositionY());
+            this.position = new Vector2(this.sprite.GetPositionX(), this.sprite.GetPositionY());
+            //this.offsetPosition = new Vector2(this.sprite.GetPositionX(), this.sprite.GetPositionY());
             this.velocity = new Vector2(0, 0);
             this.friction = 0.9f;
             this.currentState = null;
-            this.startedRunning = false;
-            this.goingRight = true;
             this.hitbox = new Hitbox(hitboxWidth, hitboxHeight);
             this.hitbox.SetHolder(this);
         }
@@ -92,27 +89,27 @@ namespace SharpCrawler
         //METHODS
         public bool Intersect(Entity entity)
         {
-            return this.hitbox.Intersect(entity.GetHitbox(), this.offsetPosition, entity.offsetPosition);
+            return this.hitbox.Intersect(entity.GetHitbox(), this.position, entity.position);
         }
         public void UpdatePositionVelocite()
         {
-            this.offsetPosition.X += this.velocity.X;
-            this.offsetPosition.Y += this.velocity.Y;
+            this.position.X += this.velocity.X;
+            this.position.Y += this.velocity.Y;
         }
 
         public void CancelUpdatePosition(Vector2 intersectionDepth)
         {
             if (Math.Abs(intersectionDepth.X) < Math.Abs(intersectionDepth.Y))
-                this.offsetPosition.X += intersectionDepth.X;
+                this.position.X += intersectionDepth.X;
             else
-                this.offsetPosition.Y += intersectionDepth.Y;
+                this.position.Y += intersectionDepth.Y;
         }
 
-        public void UpdatePositionCamera(CameraClass camera)
-        {
-            this.position.X = (this.offsetPosition.X - camera.GetPositionX());
-            this.position.Y = (this.offsetPosition.Y - camera.GetPositionY());
-        }
+        // public void UpdatePositionCamera(CameraClass camera)
+        // {
+        //     this.position.X = (this.offsetPosition.X - camera.GetPositionX());
+        //     this.position.Y = (this.offsetPosition.Y - camera.GetPositionY());
+        // }
 
         public void ApplyFriction()
         {
@@ -133,16 +130,13 @@ namespace SharpCrawler
         }
 
         //UPDATE & DRAW
-        public virtual void Update(GameTime gametime, Input input, float delta, CameraClass camera)
+        public virtual void Update(GameTime gametime, Input input, float delta)
         {
             this.ApplyFriction();
             this.UpdatePositionVelocite();
-            this.UpdatePositionCamera(camera);
-            this.sprite.Update(this.offsetPosition.X, this.offsetPosition.Y);
+            //this.UpdatePositionCamera(camera);
+            this.sprite.Update(this.position.X, this.position.Y);
         }
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            this.sprite.Draw(spriteBatch);
-        }
+        public abstract void Draw(SpriteBatch spriteBatch);
     }
 }

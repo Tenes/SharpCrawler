@@ -73,11 +73,6 @@ namespace SharpCrawler
             this.Position.X = x;
             this.Position.Y = y;
         }
-        public void UpdatePosition(float x, float y)
-        {
-            this.Position.X += x;
-            this.Position.Y += y;
-        }
         public void UpdateAnimationFrame()
         {
             if (this.AnimationTime > 0)
@@ -98,7 +93,7 @@ namespace SharpCrawler
         //UPDATE & DRAW
         public void Update(float x, float y, bool animated = false)
         {
-            this.UpdatePosition(x, y);
+            this.SetPosition(x, y);
             if(animated)
             {
                 this.UpdateAnimationFrame();

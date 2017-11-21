@@ -9,7 +9,7 @@ namespace SharpCrawler
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Input generalInput;
-        Sprite test;
+        MainScene principalScene;
         
 
         public SharpCrawl()
@@ -23,7 +23,7 @@ namespace SharpCrawler
         {
             base.Initialize();
             this.generalInput = new Input(Keyboard.GetState(), Keyboard.GetState(), Mouse.GetState(), Mouse.GetState());
-            this.test = new Sprite("TileSet", 100, 100, Ressources.CharacterN1(), 3f);
+            this.principalScene = new MainScene(); 
         }
 
         protected override void LoadContent()
@@ -38,7 +38,7 @@ namespace SharpCrawler
                 Exit();
             this.generalInput.SetCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
-            this.test.Update(0, 0);
+            this.principalScene.Update(gameTime, this.generalInput);
 
             this.generalInput.SetOldStates(Keyboard.GetState(), Mouse.GetState());
             base.Update(gameTime);
@@ -49,7 +49,7 @@ namespace SharpCrawler
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            this.test.DrawFromSpriteSheet(this.spriteBatch);
+            this.principalScene.Draw(this.spriteBatch, this.Content);
             spriteBatch.End();
 
             base.Draw(gameTime);
