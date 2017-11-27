@@ -13,6 +13,7 @@ namespace SharpCrawler
 
         public static bool fullscreen = false;
         public static bool visibleMouse = true;
-        public static int tileSize = 16;
+        public static byte tileSize = 16;
+        public static float scale = 4f;
     }
 }

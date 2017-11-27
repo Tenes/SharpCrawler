@@ -50,5 +50,25 @@ namespace SharpCrawler
         {
             return new Rectangle(3*Settings.tileSize, 3*Settings.tileSize, Settings.tileSize, 2*Settings.tileSize);
         } 
+        public static Rectangle Floor()
+        {
+            return new Rectangle(2*Settings.tileSize, 3*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        } 
+        public static Rectangle Portal()
+        {
+            return new Rectangle(4*Settings.tileSize, 7*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        } 
+        public static Rectangle AlternativeWall()
+        {
+            return new Rectangle(8*Settings.tileSize, 0*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        } 
+        public static Rectangle Void()
+        {
+            return new Rectangle(4*Settings.tileSize, 14*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle Hand1()
+        {
+            return new Rectangle(7*Settings.tileSize, 8*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
     }
 }

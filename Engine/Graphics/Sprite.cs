@@ -23,6 +23,7 @@ namespace SharpCrawler
         private int SpriteWidth;
         private int SpriteHeight;
         public float AnimationTime { get; set; }
+        private float layerDepth;
 
         //SETTER-GETTER
         public Sprite SetColor(Color color)
@@ -54,14 +55,19 @@ namespace SharpCrawler
         {
             return this.Scale;
         }
+        public void SetDepth(float depth)
+        {
+            this.layerDepth = (depth <= 1 && depth >= 0) ? depth : 1;
+        }
 
         //CONSTRUCTOR
-        public Sprite(string imageKey, int x, int y, Rectangle source = new Rectangle(), float scale = 1f, int destinationWidth = 0, int destinationHeight = 0)
+        public Sprite(string imageKey, int x, int y, float depth, Rectangle source = new Rectangle(), float scale = 1f, int destinationWidth = 0, int destinationHeight = 0)
         {
             this.Texture = Ressources.sprites[imageKey];
-            this.SpriteWidth = (scale == 1f)? (int)destinationWidth : (int)(source.Width*scale);
-            this.SpriteHeight = (scale == 1f)? (int)destinationHeight : (int)(source.Height*scale);
+            this.SpriteWidth = (scale == 1f) ? (int)destinationWidth : (int)(source.Width * scale);
+            this.SpriteHeight = (scale == 1f) ? (int)destinationHeight : (int)(source.Height * scale);
             this.Position = new Vector2(x, y);
+            this.layerDepth = depth;
             this.FrameSize = source;
             this.Color = Color.White;
             this.Rotation = 0; //NO USE FOR NOW
@@ -69,7 +75,7 @@ namespace SharpCrawler
             this.AnimationTime = 200;
             this.Scale = scale;
             this.Destination = new Rectangle(x, y, destinationWidth, destinationHeight);
-            this.Origin = new Vector2(source.Width/2, source.Height/2);
+            this.Origin = new Vector2(source.Width / 2, source.Height / 2);
         }
         //PROPERTIES
         public int Width { get { return this.SpriteWidth; } }
@@ -102,7 +108,7 @@ namespace SharpCrawler
         public void Update(float x, float y, bool animated = false)
         {
             this.SetPosition(x, y);
-            if(animated)
+            if (animated)
             {
                 this.UpdateAnimationFrame();
                 this.Origin = new Vector2(this.FrameSize.X + this.FrameSize.Width / 2, this.FrameSize.Y + this.FrameSize.Height / 2);
@@ -111,15 +117,15 @@ namespace SharpCrawler
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.Position, null, this.Color, this.Rotation, this.Origin, 1f, this.Effects, 0);
+            spriteBatch.Draw(this.Texture, this.Position, null, this.Color, this.Rotation, this.Origin, 1f, this.Effects, this.layerDepth);
         }
         public void DrawFromSpriteSheet(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.Position, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Scale, this.Effects, 0);
+            spriteBatch.Draw(this.Texture, this.Position, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Scale, this.Effects, this.layerDepth);
         }
         public void DrawFromSpriteSheetToDestination(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Texture, this.Destination, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Effects, 0);
+            spriteBatch.Draw(this.Texture, this.Destination, this.FrameSize, this.Color, this.Rotation, this.Origin, this.Effects, this.layerDepth);
         }
     }
 }

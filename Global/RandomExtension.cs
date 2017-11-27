@@ -5,12 +5,11 @@ namespace SharpCrawler
 {
     public static class RandomExtension
     {
-        public static Random rng = new Random();
 
         #region Choose
-        public static float Choose(List<float> FloatList)
+        public static float Choose(this Random r, List<float> FloatList)
         {
-            return FloatList[rng.Next(0, FloatList.Count)];
+            return FloatList[r.Next(0, FloatList.Count)];
         }
 
         #endregion

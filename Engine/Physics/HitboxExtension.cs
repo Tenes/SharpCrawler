@@ -20,8 +20,8 @@ namespace SharpCrawler
             hitboxA.SetCenter(hitboxA.GetPositionX() + halfWidthA, hitboxA.GetPositionY()+ halfHeightA);
             hitboxB.SetCenter(hitboxB.GetPositionX() + halfWidthB, hitboxB.GetPositionY() + halfHeightB);
 
-            float distanceX = ((hitboxA.GetHolder().GetPositionX() + hitboxA.GetCenterX()) - (hitboxB.GetHolder().GetPositionX() + hitboxB.GetCenterX()));
-            float distanceY = ((hitboxA.GetHolder().GetPositionY() + hitboxA.GetCenterY()) - (hitboxB.GetHolder().GetPositionY() + hitboxB.GetCenterY()));
+            float distanceX = ((hitboxA.GetHolder().GetOffsetPositionX() + hitboxA.GetCenterX()) - (hitboxB.GetHolder().GetOffsetPositionX() + hitboxB.GetCenterX()));
+            float distanceY = ((hitboxA.GetHolder().GetOffsetPositionY() + hitboxA.GetCenterY()) - (hitboxB.GetHolder().GetOffsetPositionY() + hitboxB.GetCenterY()));
             float minDistanceX = halfWidthA + halfWidthB;
             float minDistanceY = halfHeightA + halfHeightB;
 

@@ -72,7 +72,7 @@ namespace SharpCrawler
         //UPDATE & DRAW
         public void DrawDebug(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Ressources.sprites["TextInput"], new Rectangle((int)(this.holder.GetOffsetPositionX() + this.position.X), (int)(this.holder.GetOffsetPositionY() + this.position.Y), (int)hitboxWidth, (int)hitboxHeight), null, Color.Red, 0, new Vector2(0,0),SpriteEffects.None, 1);
+            spriteBatch.Draw(Ressources.sprites["TextInput"], new Rectangle((int)(this.holder.GetOffsetPositionX() + this.position.X), (int)(this.holder.GetOffsetPositionY() + this.position.Y), (int)hitboxWidth, (int)hitboxHeight), null, Color.Red, 0, new Vector2(0,0),SpriteEffects.None, 0.6f);
         }
     }
 }

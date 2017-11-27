@@ -32,7 +32,7 @@ namespace SharpCrawler
         //CONSTRUCTOR
         public PopupWindow(ContentManager content, string text, int x, int y, Color alertColor, Func<Button, bool> onClickEvent)
         {
-            this.Box = new Sprite("Popup", x, y);
+            this.Box = new Sprite("Popup", x, y, 0.2f);
             this.TextFont = content.Load<SpriteFont>("font/MainFont");
             this.TextPosition = Vector2.Subtract(this.Box.GetPositionVector(), this.TextFont.MeasureString(text) / 2);
             this.TextPosition.Y -= 40;
@@ -43,7 +43,7 @@ namespace SharpCrawler
         }
         public PopupWindow(ContentManager content, string text, int x, int y, Color alertColor)
         {
-            this.Box = new Sprite("Popup", x, y);
+            this.Box = new Sprite("Popup", x, y, 0.2f);
             this.TextFont = content.Load<SpriteFont>("font/MainFont");
             this.TextPosition = Vector2.Subtract(this.Box.GetPositionVector(), this.TextFont.MeasureString(text) / 2);
             this.TextPosition.Y -= 40;

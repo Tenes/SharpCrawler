@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -6,11 +7,13 @@ namespace SharpCrawler
 {
     public class SharpCrawl : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Input generalInput;
-        CameraClass gameCamera;
-        MainScene principalScene;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private Input generalInput;
+        private CameraClass gameCamera;
+        private MainScene principalScene;
+        public static Random rng = new Random();
+        
         
 
         public SharpCrawl()
@@ -18,6 +21,7 @@ namespace SharpCrawler
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            this.IsFixedTimeStep = false;
         }
 
         protected override void Initialize()
@@ -41,7 +45,6 @@ namespace SharpCrawler
             this.generalInput.SetCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
             this.principalScene.Update(gameTime, this.gameCamera, this.generalInput);
-
             this.generalInput.SetOldStates(this.generalInput.GetKeyboardCurrentState(), this.generalInput.GetMouseCurrentState());
             base.Update(gameTime);
         }
@@ -50,7 +53,7 @@ namespace SharpCrawler
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: this.gameCamera.GetMatrix());
+            spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: this.gameCamera.GetMatrix());
             this.principalScene.Draw(this.spriteBatch, this.Content);
             spriteBatch.End();
 

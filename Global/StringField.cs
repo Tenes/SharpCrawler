@@ -44,7 +44,7 @@ namespace SharpCrawler
         {
             this.AboveText = text;
             this.CaseFont = Content.Load<SpriteFont>("font/MainFont");
-            this.CaseSkin = new Sprite("TextInput", (int)x, (int)y);
+            this.CaseSkin = new Sprite("TextInput", (int)x, (int)y, 0.1f);
             this.TextPosition = new Vector2(x - this.CaseSkin.Width / 2 + 10, y - 5);
             this.TextBarPosition = this.TextPosition;
             this.TextColor = Color.Black;

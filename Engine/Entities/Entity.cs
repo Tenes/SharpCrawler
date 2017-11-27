@@ -64,9 +64,15 @@ namespace SharpCrawler
         {
             return this.sprite;
         }
-
+        public bool HasHitbox()
+        {
+            if(this.hitbox != null)
+                return true;
+            else
+                return false;
+        }
         //CONSTRUCTOR
-        protected Entity(Sprite sprite, bool realHitbox, float hitboxWidth, float hitboxHeight, int relativeX, int relativeY)
+        protected Entity(Sprite sprite, bool realHitbox, float hitboxWidth, float hitboxHeight, int relativeX, int relativeY, bool noHitbox)
         {
             this.sprite = sprite;
             this.position = new Vector2(0, 0);
@@ -75,8 +81,11 @@ namespace SharpCrawler
             this.velocity = new Vector2(0, 0);
             this.friction = 0.9f;
             this.currentState = State.MovingLeft;
-            this.hitbox = (realHitbox) ? new Hitbox(this, hitboxWidth, hitboxHeight) 
-                : new Hitbox(this, hitboxWidth, hitboxHeight, relativeX, relativeY);
+            if(noHitbox)
+                this.hitbox = null;
+            else
+                this.hitbox = (realHitbox) ? new Hitbox(this, hitboxWidth, hitboxHeight) 
+                    : new Hitbox(this, hitboxWidth, hitboxHeight, relativeX, relativeY);
         }
 
         //METHODS
@@ -84,7 +93,6 @@ namespace SharpCrawler
         {
             if(this.hitbox.Intersect(entity.GetHitbox(), this.offsetPosition, entity.offsetPosition))
                 CancelUpdatePosition(this.hitbox.GetIntersectionDepth(entity.GetHitbox()));
-            
         }
         public void UpdatePositionVelocite()
         {

@@ -27,7 +27,7 @@ namespace SharpCrawler
         public Button(ContentManager Content, string fontPath, string text,float x, float y, Func<Button, bool> onClickEvent)
         {
             this.ButtonFont = Content.Load<SpriteFont>(fontPath);
-            this.ButtonSkin = new Sprite("Button", (int)x, (int)y);
+            this.ButtonSkin = new Sprite("Button", (int)x, (int)y, 0.1f);
             if(text.Split(' ').Count() < 3)
             {
                 this.ButtonText = text;

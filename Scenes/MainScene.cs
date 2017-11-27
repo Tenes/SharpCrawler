@@ -19,14 +19,16 @@ namespace SharpCrawler
         public MainScene()
         {
             this.Player = EntityFactory.PlayerBuilder(Ressources.CharacterN1(), 100, 100, "John", 3f);
+            MapFactory.FirstMap(this.Player);
         }
         public void Update(GameTime gameTime, CameraClass camera, Input generalInput)
         {
             this.Player.Update(gameTime, camera, generalInput, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            this.Player.MapCollisionCheck();
         }
         public void Draw(SpriteBatch spriteBatch, ContentManager Content)
         {
-            spriteBatch.DrawString(Content.Load<SpriteFont>("font/MainFont"), "Hello", new Vector2(100,100), Color.Black);
+            this.Player.DrawMap(spriteBatch);
             this.Player.Draw(spriteBatch);
         }
     }

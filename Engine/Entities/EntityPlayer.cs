@@ -13,9 +13,18 @@ namespace SharpCrawler
     {
         //FIELDS
         private string Name;
+        private Map actualMap;
+        public void SetActualMap(Map map)
+        {
+            this.actualMap = map;
+        }
+        public Map GetActualMap()
+        {
+            return this.actualMap;
+        }
         //CONSTRUCTOR
-        public EntityPlayer(Sprite sprite,  bool realHitbox, string name, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0)
-                : base(sprite, realHitbox, hitboxWidth, hitboxHeight, relativeX, relativeY)
+        public EntityPlayer(Sprite sprite,  bool realHitbox, string name, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
+                : base(sprite, realHitbox, hitboxWidth, hitboxHeight, relativeX, relativeY, noHitbox)
         {
             this.Name = name;
         }
