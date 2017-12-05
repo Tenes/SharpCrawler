@@ -8,32 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SharpCrawler
 {
-    public class GroundAndObstacle : Entity
+    public class Obstacle : Entity
     {
-        //FIELDS
-        private bool staticObject;
-
         //CONSTRUCTOR
-        public GroundAndObstacle(Sprite objectTexture, bool realHitbox, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool staticObject = true, bool noHitbox = false)
-                : base(objectTexture, realHitbox,  hitboxWidth, hitboxHeight, relativeX, relativeY, noHitbox)
+        public Obstacle(Sprite objectTexture, bool realHitbox, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0)
+                : base(objectTexture, realHitbox,  hitboxWidth, hitboxHeight, relativeX, relativeY, false)
         {
-            this.sprite = objectTexture;
-            this.staticObject = staticObject;
         }
 
-        //METHODS
-
-
-        //UPDATE & DRAW
-        public void Update(float delta)
-        {
-
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            this.sprite.DrawFromSpriteSheet(spriteBatch);
-        }
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             if(this.HasHitbox())

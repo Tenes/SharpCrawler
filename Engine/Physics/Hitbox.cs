@@ -59,6 +59,13 @@ namespace SharpCrawler
             this.center = new Vector2(0, 0);
             this.holder = entity;
         }
+        public Hitbox(float hitboxWidth = 0, float hitboxHeight = 0)
+        {
+            this.position =  new Vector2(-hitboxWidth/2, -hitboxHeight/2);
+            this.hitboxWidth = hitboxWidth;
+            this.hitboxHeight = hitboxHeight;
+            this.center = new Vector2(0, 0);
+        }
 
         //METHODS
         public bool Intersect(Hitbox entityHitbox, Vector2 subjectPosition, Vector2 otherPosition)

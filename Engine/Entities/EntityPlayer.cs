@@ -12,8 +12,10 @@ namespace SharpCrawler
     public class EntityPlayer : Entity
     {
         //FIELDS
-        private string Name;
+        private string name;
         private Map actualMap;
+        private byte teleportationTime;
+        private Hand entityHand;
         public void SetActualMap(Map map)
         {
             this.actualMap = map;
@@ -22,11 +24,17 @@ namespace SharpCrawler
         {
             return this.actualMap;
         }
+        public Hand GetHand()
+        {
+            return this.entityHand;
+        }
         //CONSTRUCTOR
-        public EntityPlayer(Sprite sprite,  bool realHitbox, string name, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
+        public EntityPlayer(Sprite sprite,  bool realHitbox, string name, Hand hand, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
                 : base(sprite, realHitbox, hitboxWidth, hitboxHeight, relativeX, relativeY, noHitbox)
         {
-            this.Name = name;
+            this.name = name;
+            this.entityHand = hand;
+            this.entityHand.SetHolder(this);
         }
 
         //METHODS
@@ -40,11 +48,13 @@ namespace SharpCrawler
             {
                 this.velocity.X -= (Settings.pixelRatio*delta)*20;
                 this.currentState = State.MovingLeft;
+                this.entityHand.GetWeapon()?.SetState(State.MovingLeft);
             }
             if (input.IsKeyDown(Keys.D)) //Move right
             {
                 this.velocity.X += (Settings.pixelRatio*delta)*20;
                 this.currentState = State.MovingRight;
+                this.entityHand.GetWeapon()?.SetState(State.MovingRight);
             }
 
         }
@@ -53,12 +63,15 @@ namespace SharpCrawler
         public override void Update(GameTime gameTime, CameraClass camera, Input input, float delta)
         {
             this.Mouvement(input, delta);
+            this.entityHand.Update((this.currentState == State.MovingLeft) ?(int)this.offsetPosition.X + 8:(int)this.offsetPosition.X - 8,
+                                    (int)this.offsetPosition.Y+ 16);
             base.Update(gameTime, camera, input, delta);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.hitbox.DrawDebug(spriteBatch);
+            //this.hitbox.DrawDebug(spriteBatch);
             this.sprite.DrawFromSpriteSheet(spriteBatch);
+            this.entityHand.Draw(spriteBatch);
         }
     }
 }

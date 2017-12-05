@@ -26,7 +26,7 @@ namespace SharpCrawler
         public CameraClass(int width, int height, Entity elem)
         {
             this.position = new Vector2(elem.GetPositionX() - width/2, elem.GetPositionY() - height/2);
-            this.speed = 5;
+            this.speed = 8;
             this.width = width;
             this.height = height;
             this.follow = elem;

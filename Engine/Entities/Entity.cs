@@ -64,6 +64,10 @@ namespace SharpCrawler
         {
             return this.sprite;
         }
+        public State GetState()
+        {
+            return this.currentState;
+        }
         public bool HasHitbox()
         {
             if(this.hitbox != null)
@@ -89,10 +93,9 @@ namespace SharpCrawler
         }
 
         //METHODS
-        public void Intersect(Entity entity)
+        public bool Intersect(Entity entity)
         {
-            if(this.hitbox.Intersect(entity.GetHitbox(), this.offsetPosition, entity.offsetPosition))
-                CancelUpdatePosition(this.hitbox.GetIntersectionDepth(entity.GetHitbox()));
+            return this.hitbox.Intersect(entity.GetHitbox(), this.offsetPosition, entity.offsetPosition);
         }
         public void UpdatePositionVelocite()
         {
@@ -100,8 +103,9 @@ namespace SharpCrawler
             this.offsetPosition.Y += this.velocity.Y;
         }
 
-        public void CancelUpdatePosition(Vector2 intersectionDepth)
+        public void CancelUpdatePosition(Entity entity)
         {
+            Vector2 intersectionDepth = this.hitbox.GetIntersectionDepth(entity.GetHitbox());
             if (Math.Abs(intersectionDepth.X) < Math.Abs(intersectionDepth.Y))
                 this.offsetPosition.X += intersectionDepth.X;
             else
@@ -139,6 +143,9 @@ namespace SharpCrawler
             this.UpdatePositionCamera(camera);
             this.sprite.Update(this.offsetPosition.X, this.offsetPosition.Y);
         }
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            this.sprite.DrawFromSpriteSheet(spriteBatch);
+        }
     }
 }

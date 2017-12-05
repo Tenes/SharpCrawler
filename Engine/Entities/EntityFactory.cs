@@ -12,48 +12,48 @@ namespace SharpCrawler
     {
         private static int scaledSize;
         private static int relativePosition;
-        public static GroundAndObstacle WallBuilder(Rectangle sourceRectangle, int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
+        public static Obstacle WallBuilder(Rectangle sourceRectangle, int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
         {
             scaledSize = (int)(Settings.tileSize * scale);
             relativePosition = (int)(-Settings.tileSize/2 * scale);
             if(width == 0 && height == 0)
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY - scaledSize/2, 1, sourceRectangle, scale), false, scaledSize, scaledSize * 0.8f, relativePosition, (int)(relativePosition * 0.3f));
+                return new Obstacle(new Sprite("TileSet", positionX, positionY - scaledSize/2, 1, sourceRectangle, scale), false, scaledSize, scaledSize * 0.8f, relativePosition, (int)(relativePosition * 0.3f));
             else
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY - scaledSize/2, 1, sourceRectangle, scale, width, height), false, width, height * 0.3f, (int)(-width/2), (int)(-height/2 * 0.15f));
+                return new Obstacle(new Sprite("TileSet", positionX, positionY - scaledSize/2, 1, sourceRectangle, scale, width, height), false, width, height * 0.3f, (int)(-width/2), (int)(-height/2 * 0.15f));
         }
         public static EntityPlayer PlayerBuilder(Rectangle sourceRectangle, int positionX, int positionY, string name, float scale = 1, int width = 0, int height = 0)
         {
             scaledSize = (int)(Settings.tileSize * scale);
             relativePosition = (int)(-Settings.tileSize/2 * scale);
             if(width == 0 || height == 0)
-                return new EntityPlayer(new Sprite("TileSet", positionX, positionY, 0.5f, sourceRectangle, scale), false, name, scaledSize * 0.7f, scaledSize * 0.75f, (int)(relativePosition * 0.6f), (int)(relativePosition * 0.6f));
+                return new EntityPlayer(new Sprite("TileSet", positionX, positionY, 0.6f, sourceRectangle, scale), false, name, new Hand(new Sprite("TileSet", positionX + 10, positionY + 10, 0.4f, Ressources.Hand1(), scale)), scaledSize * 0.7f, scaledSize * 0.75f, (int)(relativePosition * 0.6f), (int)(relativePosition * 0.6f));
             else
-                return new EntityPlayer(new Sprite("TileSet", positionX, positionY, 0.5f, sourceRectangle, scale,  width, height), false, name, width, height, (int)(-width/2), (int)(-height/2));
+                return new EntityPlayer(new Sprite("TileSet", positionX, positionY, 0.6f, sourceRectangle, scale,  width, height), false, name, new Hand(new Sprite("TileSet", positionX + 10, positionY + 10, 0.5f, Ressources.Hand1(), scale)), width, height, (int)(-width/2), (int)(-height/2));
         }
-        public static GroundAndObstacle VoidOrAlternativeBuilder(Rectangle sourceRectangle, int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
+        public static Obstacle VoidOrAlternativeBuilder(Rectangle sourceRectangle, int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
         {
             scaledSize = (int)(Settings.tileSize * scale);
             relativePosition = (int)(-Settings.tileSize/2 * scale);
             if(width == 0 && height == 0)
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY, 1, sourceRectangle, scale), false, scaledSize, scaledSize, relativePosition, relativePosition);
+                return new Obstacle(new Sprite("TileSet", positionX, positionY, 1, sourceRectangle, scale), false, scaledSize, scaledSize, relativePosition, relativePosition);
             else
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY, 1, sourceRectangle, scale, width, height), false, width, height, (int)(-width/2), (int)(-height/2));
+                return new Obstacle(new Sprite("TileSet", positionX, positionY, 1, sourceRectangle, scale, width, height), false, width, height, (int)(-width/2), (int)(-height/2));
         }
-        public static GroundAndObstacle PortalBuilder(int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
+        public static Portal PortalBuilder(int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
         {
             scaledSize = (int)(Settings.tileSize * scale);
             relativePosition = (int)(-Settings.tileSize/2 * scale);
             if(width == 0 && height == 0)
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY, 1, Ressources.Portal(), scale), false, scaledSize, scaledSize, relativePosition, relativePosition, noHitbox:true);
+                return new Portal(new Sprite("TileSet", positionX, positionY, 1, Ressources.Portal(), scale), false, scaledSize, scaledSize, relativePosition, relativePosition);
             else
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY, 1, Ressources.Portal(), scale, width, height), false, width, height, (int)(-width/2), (int)(-height/2), noHitbox:true);
+                return new Portal(new Sprite("TileSet", positionX, positionY, 1, Ressources.Portal(), scale, width, height), false, width, height, (int)(-width/2), (int)(-height/2));
         }
-        public static GroundAndObstacle FloorBuilder(int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
+        public static Ground FloorBuilder(int positionX, int positionY, float scale = 1, int width = 0, int height = 0)
         {
             if(width == 0 && height == 0)
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY, 1, Ressources.Floor(), scale), false, noHitbox:true);
+                return new Ground(new Sprite("TileSet", positionX, positionY, 1, Ressources.Floor(), scale), false);
             else
-                return new GroundAndObstacle(new Sprite("TileSet", positionX, positionY, 1, Ressources.Floor(), scale, width, height), false, noHitbox:true);
+                return new Ground(new Sprite("TileSet", positionX, positionY, 1, Ressources.Floor(), scale, width, height), false);
         }
         //public static 
     }

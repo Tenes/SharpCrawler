@@ -27,12 +27,12 @@ namespace SharpCrawler
             leftGenerationLuck = 100; 
             topGenerationLuck = 100;
             bottomGenerationLuck = 100;
-            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, step));
+            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100));
             player.SetActualMap(allMaps.First());
         }
-        public static void MapCollisionCheck(this EntityPlayer player)
+        public static void ActualMapUpdate(this EntityPlayer player)
         {
-            player.GetActualMap().CollisionCheck(player);
+            player.GetActualMap().Update(player);
         }
         public static void DrawMap(this EntityPlayer player, SpriteBatch spriteBatch)
         {

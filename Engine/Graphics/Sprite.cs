@@ -55,6 +55,18 @@ namespace SharpCrawler
         {
             return this.Scale;
         }
+        public void SetScale(float scale)
+        {
+            this.Scale = scale;
+        }
+        public float GetRotation()
+        {
+            return this.Rotation;
+        }
+        public void SetRotation(float rotation)
+        {
+            this.Rotation = rotation;
+        }
         public void SetDepth(float depth)
         {
             this.layerDepth = (depth <= 1 && depth >= 0) ? depth : 1;

@@ -11,25 +11,25 @@ namespace SharpCrawler
 {
     public class MainScene
     {
-        private EntityPlayer Player;
+        private EntityPlayer player;
         public EntityPlayer GetPlayer()
         {
-            return this.Player;
+            return this.player;
         }
         public MainScene()
         {
-            this.Player = EntityFactory.PlayerBuilder(Ressources.CharacterN1(), 100, 100, "John", 3f);
-            MapFactory.FirstMap(this.Player);
+            this.player = EntityFactory.PlayerBuilder(Ressources.FlameGuy(), 100, 100, "John", 3f);
+            MapFactory.FirstMap(this.player);
         }
         public void Update(GameTime gameTime, CameraClass camera, Input generalInput)
         {
-            this.Player.Update(gameTime, camera, generalInput, (float)gameTime.ElapsedGameTime.TotalSeconds);
-            this.Player.MapCollisionCheck();
+            this.player.Update(gameTime, camera, generalInput, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            this.player.ActualMapUpdate();
         }
         public void Draw(SpriteBatch spriteBatch, ContentManager Content)
         {
-            this.Player.DrawMap(spriteBatch);
-            this.Player.Draw(spriteBatch);
+            this.player.DrawMap(spriteBatch);
+            this.player.Draw(spriteBatch);
         }
     }
 }

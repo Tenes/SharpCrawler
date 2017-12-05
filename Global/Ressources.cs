@@ -30,7 +30,7 @@ namespace SharpCrawler
                 sprites.Add(sprite, content.Load<Texture2D>($"spr/{sprite}"));
             }
         }
-        public static Rectangle CharacterN1()
+        public static Rectangle FlameGuy()
         {
             return new Rectangle(2*Settings.tileSize, 13*Settings.tileSize, Settings.tileSize, Settings.tileSize);
         }
@@ -68,7 +68,11 @@ namespace SharpCrawler
         }
         public static Rectangle Hand1()
         {
-            return new Rectangle(7*Settings.tileSize, 8*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+            return new Rectangle(7*Settings.tileSize, 8*Settings.tileSize + 5, Settings.tileSize/4, Settings.tileSize/4);
+        }
+        public static Rectangle Sword1()
+        {
+            return new Rectangle(9*Settings.tileSize, 0*Settings.tileSize + 10, Settings.tileSize, 2*Settings.tileSize - 10);
         }
     }
 }
