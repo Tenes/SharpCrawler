@@ -19,8 +19,11 @@ namespace SharpCrawler
         protected float friction;
 
         protected Hitbox hitbox;
-        public enum State{MovingRight, MovingLeft}
+        public enum State{MovingLeft, MovingRight}
+        public enum AttackDirection{AttackingLeft, AttackingRight}
         protected State currentState;
+        protected AttackDirection currentAttackDirection;
+        protected bool attacking;
 
         //SETTER-GETTER
         public float GetPositionX()
@@ -68,12 +71,20 @@ namespace SharpCrawler
         {
             return this.currentState;
         }
+        public AttackDirection GetAttackDirection()
+        {
+            return this.currentAttackDirection;
+        }
         public bool HasHitbox()
         {
             if(this.hitbox != null)
                 return true;
             else
                 return false;
+        }
+        public void SetAttacking(bool attacking)
+        {
+            this.attacking = attacking;
         }
         //CONSTRUCTOR
         protected Entity(Sprite sprite, bool realHitbox, float hitboxWidth, float hitboxHeight, int relativeX, int relativeY, bool noHitbox)
@@ -90,6 +101,7 @@ namespace SharpCrawler
             else
                 this.hitbox = (realHitbox) ? new Hitbox(this, hitboxWidth, hitboxHeight) 
                     : new Hitbox(this, hitboxWidth, hitboxHeight, relativeX, relativeY);
+            this.currentAttackDirection = AttackDirection.AttackingRight;
         }
 
         //METHODS

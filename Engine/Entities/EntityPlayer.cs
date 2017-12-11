@@ -38,6 +38,21 @@ namespace SharpCrawler
         }
 
         //METHODS
+        public void UpdateHand(Input input, GameTime gameTime)
+        {
+            if(input.IsMouseDown() && !this.attacking)
+            {
+                this.attacking = true;
+                this.currentAttackDirection = (AttackDirection)this.currentState;
+            }
+
+            if(!this.attacking)
+                this.entityHand.Update((this.currentState == State.MovingLeft) ?(int)this.offsetPosition.X + 8:(int)this.offsetPosition.X - 8,
+                                    (int)this.offsetPosition.Y+ 16);
+            else
+                this.entityHand.Attack(gameTime, (this.currentAttackDirection == AttackDirection.AttackingLeft) ?(int)this.offsetPosition.X + 8:(int)this.offsetPosition.X - 8,
+                                    (int)this.offsetPosition.Y+ 16);
+        }
         public void Mouvement(Input input, float delta)
         {
             if (input.IsKeyDown(Keys.Z)) //Move up
@@ -63,8 +78,7 @@ namespace SharpCrawler
         public override void Update(GameTime gameTime, CameraClass camera, Input input, float delta)
         {
             this.Mouvement(input, delta);
-            this.entityHand.Update((this.currentState == State.MovingLeft) ?(int)this.offsetPosition.X + 8:(int)this.offsetPosition.X - 8,
-                                    (int)this.offsetPosition.Y+ 16);
+            this.UpdateHand(input, gameTime);
             base.Update(gameTime, camera, input, delta);
         }
         public override void Draw(SpriteBatch spriteBatch)

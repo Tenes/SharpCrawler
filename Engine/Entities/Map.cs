@@ -173,7 +173,7 @@ namespace SharpCrawler
         private void GenerateLeftPortals()
         {
             byte portalsPosition = (byte)mapRng.Next(0, 13);
-            if(mapRng.Next(101) <= currentLeftLuck)
+            if(mapRng.Next(101) < currentLeftLuck)
             {
                 this.centerMap[portalsPosition, 0] = ObstacleType.Wall1;
                 this.centerMap[portalsPosition + 1, 0] = ObstacleType.Portal;
@@ -191,7 +191,7 @@ namespace SharpCrawler
         private void GenerateRightPortals()
         {
             byte portalsPosition = (byte)mapRng.Next(0, 13);
-            if(mapRng.Next(101) <= currentRightLuck)
+            if(mapRng.Next(101) < currentRightLuck)
             {
                 this.centerMap[portalsPosition, 15] = ObstacleType.Wall1;
                 this.centerMap[portalsPosition + 1, 15] = ObstacleType.Portal;
@@ -209,7 +209,7 @@ namespace SharpCrawler
         private void GenerateBottomPortals()
         {
             byte portalsPosition = (byte)mapRng.Next(1, 12);
-            if(mapRng.Next(101) <= currentBottomLuck)
+            if(mapRng.Next(101) < currentBottomLuck)
             {
                 this.centerMap[15, portalsPosition] = ObstacleType.AlternativeWall;
                 this.centerMap[15, portalsPosition + 1] = ObstacleType.Portal;
@@ -227,7 +227,7 @@ namespace SharpCrawler
         private void GenerateTopPortals()
         {
             byte portalsPosition = (byte)mapRng.Next(1, 12);
-            if(mapRng.Next(101) <= currentTopLuck)
+            if(mapRng.Next(101) < currentTopLuck)
             {
                 this.centerMap[0, portalsPosition] = ObstacleType.Wall1;
                 this.centerMap[0, portalsPosition + 1] = ObstacleType.Portal;
