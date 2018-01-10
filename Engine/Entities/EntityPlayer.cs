@@ -28,6 +28,10 @@ namespace SharpCrawler
         {
             return this.entityHand;
         }
+        public byte GetHealth()
+        {
+            return this.health;
+        }
         //CONSTRUCTOR
         public EntityPlayer(Sprite sprite,  bool realHitbox, string name, Hand hand, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
                 : base(sprite, realHitbox, hitboxWidth, hitboxHeight, relativeX, relativeY, noHitbox)
@@ -35,6 +39,7 @@ namespace SharpCrawler
             this.name = name;
             this.entityHand = hand;
             this.entityHand.SetHolder(this);
+            this.health = 3;
         }
 
         //METHODS
@@ -70,6 +75,11 @@ namespace SharpCrawler
                 this.velocity.X += (Settings.pixelRatio*delta)*20;
                 this.currentState = State.MovingRight;
                 this.entityHand.GetWeapon()?.SetState(State.MovingRight);
+            }
+            if (input.IsKeyPressed(Keys.E)) //Move right
+            {
+                this.health--;
+                UIUtils.LinkHealthToUI(this.health);
             }
 
         }

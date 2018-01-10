@@ -24,6 +24,7 @@ namespace SharpCrawler
         protected State currentState;
         protected AttackDirection currentAttackDirection;
         protected bool attacking;
+        protected byte health;
 
         //SETTER-GETTER
         public float GetPositionX()

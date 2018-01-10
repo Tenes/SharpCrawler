@@ -14,8 +14,20 @@ namespace SharpCrawler
         private Weapon actualWeapon;
         private Entity holder;
         private byte attackTimer;
-        private Dictionary<short, Vector3> handPositions;
-        private Dictionary<short, Vector2> armPositions;
+        private static Dictionary<short, Vector3> handPositions = new Dictionary<short, Vector3>{
+            {0, new Vector3(0, 0, MathHelper.Pi + MathHelper.PiOver4)},
+            {1, new Vector3(3, -12, MathHelper.Pi + MathHelper.PiOver2 + MathHelper.PiOver4)},
+            {2, new Vector3(8, -20, 0)},
+            {3, new Vector3(15, -14, MathHelper.PiOver4)},
+            {4, new Vector3(20, -6, MathHelper.PiOver2 + MathHelper.PiOver4)}
+        };
+        private static Dictionary<short, Vector2> armPositions = new Dictionary<short, Vector2>{
+            {0, new Vector2(9, 12)},
+            {1, new Vector2(6, -11)},
+            {2, new Vector2(0, -18)},
+            {3, new Vector2(-8, -9)},
+            {4, new Vector2(-13, 8)}
+        };
         private byte actualFrame;
         public Weapon GetWeapon()
         {
@@ -34,43 +46,29 @@ namespace SharpCrawler
             this.skin = skin;
             this.actualWeapon = null;
             this.attackTimer = 0;
-            this.handPositions = new Dictionary<short, Vector3>{
-                {0, new Vector3(0, 0, MathHelper.Pi + MathHelper.PiOver4)},
-                {1, new Vector3(3, -12, MathHelper.Pi + MathHelper.PiOver2 + MathHelper.PiOver4)},
-                {2, new Vector3(8, -20, 0)},
-                {3, new Vector3(15, -14, MathHelper.PiOver4)},
-                {4, new Vector3(20, -6, MathHelper.PiOver2 + MathHelper.PiOver4)}
-            };
-            this.armPositions = new Dictionary<short, Vector2>{
-                {0, new Vector2(9, 12)},
-                {1, new Vector2(6, -11)},
-                {2, new Vector2(0, -18)},
-                {3, new Vector2(-8, -9)},
-                {4, new Vector2(-13, 8)}
-            };
         }
         public void Attack(GameTime gameTime, int handX, int handY)
         {
             int tempX;
-            int tempY = handY + (int)this.handPositions[this.actualFrame].Y;
-            this.attackTimer += 3;
+            int tempY = handY + (int)handPositions[this.actualFrame].Y;
+            this.attackTimer += 1;
             if(this.holder.GetAttackDirection() == Entity.AttackDirection.AttackingRight)
             {
-                tempX = handX + (int)this.handPositions[this.actualFrame].X;
+                tempX = handX + (int)handPositions[this.actualFrame].X;
                 this.skin.SetPosition(tempX, tempY);
-                this.actualWeapon?.Update(tempX-(int)this.armPositions[this.actualFrame].X, tempY+(int)this.armPositions[this.actualFrame].Y);
-                this.actualWeapon?.SetSkinRotation(this.handPositions[this.actualFrame].Z);
+                this.actualWeapon?.Update(tempX-(int)armPositions[this.actualFrame].X, tempY+(int)armPositions[this.actualFrame].Y);
+                this.actualWeapon?.SetSkinRotation(handPositions[this.actualFrame].Z);
             }
             else
             { 
-                tempX = handX - (int)this.handPositions[this.actualFrame].X;
+                tempX = handX - (int)handPositions[this.actualFrame].X;
                 this.skin.SetPosition(tempX, tempY);
-                this.actualWeapon?.Update(tempX+(int)this.armPositions[this.actualFrame].X, tempY+(int)this.armPositions[this.actualFrame].Y);
-                this.actualWeapon?.SetSkinRotation(-this.handPositions[this.actualFrame].Z);
+                this.actualWeapon?.Update(tempX+(int)armPositions[this.actualFrame].X, tempY+(int)armPositions[this.actualFrame].Y);
+                this.actualWeapon?.SetSkinRotation(-handPositions[this.actualFrame].Z);
             }
-            if(this.attackTimer%9 == 0)
+            if(this.attackTimer%2 == 0)
                 this.UpdateFrame();
-            if(this.attackTimer >= 45)
+            if(this.attackTimer >= 10)
             {
                 this.attackTimer = 0;
                 this.actualFrame = 0;

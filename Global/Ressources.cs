@@ -21,6 +21,8 @@ namespace SharpCrawler
             List<string> spr = new List<string>()
             {
                 "TextInput",
+                "UILives",
+                "UIWeapon",
                 "TileSet",
                 "Gear"
             };
@@ -73,6 +75,14 @@ namespace SharpCrawler
         public static Rectangle Sword1()
         {
             return new Rectangle(9*Settings.tileSize, 0*Settings.tileSize + 10, Settings.tileSize, 2*Settings.tileSize - 10);
+        }
+        public static Rectangle AnimatedLive(int frame)
+        {
+            return new Rectangle(8*Settings.tileSize  + 16 * frame, 9*Settings.tileSize , Settings.tileSize, 2*Settings.tileSize - 9);
+        }
+        public static Rectangle ExtinguishedLive()
+        {
+            return new Rectangle(7*Settings.tileSize, 9*Settings.tileSize + 3, Settings.tileSize, Settings.tileSize + 4);
         }
     }
 }

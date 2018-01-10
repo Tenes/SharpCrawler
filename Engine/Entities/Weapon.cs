@@ -27,6 +27,10 @@ namespace SharpCrawler
         {
             return this.relativeY;
         }
+        public Sprite GetSkin()
+        {
+            return this.skin;
+        }            
         public void SetHolder(Hand hand)
         {
             this.holder = hand;
@@ -73,6 +77,7 @@ namespace SharpCrawler
                 this.skin.SetScale(Settings.scale - 1);
                 player.GetHand().Equip(this);
                 player.GetActualMap().NullifyWeapon();
+                UIUtils.LinkWeaponToUI(this);
             }
         }
         public void UpdateOnGround(EntityPlayer entity)

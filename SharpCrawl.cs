@@ -30,6 +30,7 @@ namespace SharpCrawler
             this.generalInput = new Input(Keyboard.GetState(), Keyboard.GetState(), Mouse.GetState(), Mouse.GetState());
             this.principalScene = new MainScene();
             this.gameCamera = new CameraClass(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, this.principalScene.GetPlayer());
+            UIUtils.mainScene = this.principalScene;
         }
 
         protected override void LoadContent()
