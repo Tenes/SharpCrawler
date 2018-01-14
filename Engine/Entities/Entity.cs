@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace SharpCrawler
 {
@@ -25,68 +21,30 @@ namespace SharpCrawler
         protected AttackDirection currentAttackDirection;
         protected bool attacking;
         protected byte health;
+        protected float knockback;
 
         //SETTER-GETTER
-        public float GetPositionX()
-        {
-            return this.position.X;
-        }
-        public float GetPositionY()
-        {
-            return this.position.Y;
-        }
+        public float GetPositionX() => this.position.X;
+        public float GetPositionY() => this.position.Y;
         public void SetOffsetPosition(int x, int y)
         {
             this.offsetPosition.X = x;
             this.offsetPosition.Y = y;
         }
-        public float GetOffsetPositionX()
-        {
-            return this.offsetPosition.X;
-        }
-        public float GetOffsetPositionY()
-        {
-            return this.offsetPosition.Y;
-        }
-        public Vector2 GetOffsetPosition()
-        {
-            return this.offsetPosition;
-        }
-        public void SetVelocityX(float value)
-        {
-            this.velocity.X = value;
-        }
-        public void SetVelocityY(float value)
-        {
-            this.velocity.Y = value;
-        }
-        public Hitbox GetHitbox()
-        {
-            return this.hitbox;
-        }
-        public Sprite GetTexture()
-        {
-            return this.sprite;
-        }
-        public State GetState()
-        {
-            return this.currentState;
-        }
-        public AttackDirection GetAttackDirection()
-        {
-            return this.currentAttackDirection;
-        }
-        public bool HasHitbox()
-        {
-            if(this.hitbox != null)
-                return true;
-            else
-                return false;
-        }
-        public void SetAttacking(bool attacking)
-        {
-            this.attacking = attacking;
-        }
+        public float GetOffsetPositionX() => this.offsetPosition.X;
+        public float GetOffsetPositionY() => this.offsetPosition.Y;
+        public Vector2 GetOffsetPosition() => this.offsetPosition;
+        public void SetVelocityX(float value) => this.velocity.X = value;
+        public void SetVelocityY(float value) => this.velocity.Y = value;
+        public Hitbox GetHitbox() => this.hitbox;
+        public Sprite GetTexture() => this.sprite;
+        public State GetState() => this.currentState;
+        public AttackDirection GetAttackDirection() => this.currentAttackDirection;
+        public void SetAttacking(bool attacking) => this.attacking = attacking;
+        public virtual void TakeDamages(byte damage, Vector2 knockback) => this.health -= damage;
+        public float GetKnockBack() => this.knockback;
+        public void SetKnockBack(float newKnockback) => this.knockback = newKnockback;
+        public virtual void DeathAnimation() => this.sprite.Disappear();
         //CONSTRUCTOR
         protected Entity(Sprite sprite, bool realHitbox, float hitboxWidth, float hitboxHeight, int relativeX, int relativeY, bool noHitbox)
         {
@@ -106,9 +64,24 @@ namespace SharpCrawler
         }
 
         //METHODS
+        public bool IsAlive()
+        {
+            if(this.health > 0)
+                return true;
+            return false;
+        }
+        public bool HasHitbox()
+        {
+            if(this.hitbox != null)
+                return true;
+            else
+                return false;
+        }
         public bool Intersect(Entity entity)
         {
-            return this.hitbox.Intersect(entity.GetHitbox(), this.offsetPosition, entity.offsetPosition);
+            if(this.IsAlive())
+                return this.hitbox.Intersect(entity.GetHitbox(), this.offsetPosition, entity.offsetPosition);
+            return false;
         }
         public void UpdatePositionVelocite()
         {
@@ -129,11 +102,29 @@ namespace SharpCrawler
             this.position.X = (this.offsetPosition.X - camera.GetPositionX());
             this.position.Y = (this.offsetPosition.Y - camera.GetPositionY());
         }
-        public void ApplyFriction()
-        {
-            Vector2.Multiply(ref this.velocity, this.friction, out this.velocity); 
-        }
+        public void ApplyFriction() => Vector2.Multiply(ref this.velocity, this.friction, out this.velocity);
 
+        public void CollisionCheck(List<Obstacle> entities)
+        {
+            for(int i = 0; i < entities.Count; i++)
+                if(this.Intersect(entities[i]))
+                    this.CancelUpdatePosition(entities[i]);
+        }
+        public void CollisionCheck(Entity otherEntity)
+        {
+            if(otherEntity == this)
+                return;
+            if(this.Intersect(otherEntity))
+                this.CancelUpdatePosition(otherEntity);
+        }
+        public void Collide(Entity otherEntity)
+        {
+            if(this.Intersect(otherEntity))
+            {
+                this.TakeDamages(1, Vector2.Multiply(this.GetOffsetPosition() - otherEntity.GetOffsetPosition(), otherEntity.GetKnockBack()));
+                otherEntity.TakeDamages(1, Vector2.Multiply(otherEntity.GetOffsetPosition() - this.GetOffsetPosition(), this.GetKnockBack()));
+            }
+        }
         public virtual void UpdateSate()
         {
             switch (this.currentState)
@@ -148,7 +139,7 @@ namespace SharpCrawler
         }
 
         //UPDATE & DRAW
-        public virtual void Update(GameTime gametime, CameraClass camera, Input input, float delta)
+        public virtual void Update(GameTime gametime, CameraClass camera, Input input)
         {
             this.ApplyFriction();
             this.UpdatePositionVelocite();
@@ -156,9 +147,13 @@ namespace SharpCrawler
             this.UpdatePositionCamera(camera);
             this.sprite.Update(this.offsetPosition.X, this.offsetPosition.Y);
         }
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Update(GameTime gametime)
         {
-            this.sprite.DrawFromSpriteSheet(spriteBatch);
+            this.ApplyFriction();
+            this.UpdatePositionVelocite();
+            this.UpdateSate();
+            this.sprite.Update(this.offsetPosition.X, this.offsetPosition.Y);
         }
+        public virtual void Draw(SpriteBatch spriteBatch) => this.sprite.DrawFromSpriteSheet(spriteBatch);
     }
 }

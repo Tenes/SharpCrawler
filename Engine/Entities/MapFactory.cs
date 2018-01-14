@@ -30,13 +30,17 @@ namespace SharpCrawler
             allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100));
             player.SetActualMap(allMaps.First());
         }
-        public static void ActualMapUpdate(this EntityPlayer player)
+        public static void Reset(EntityPlayer player)
         {
-            player.GetActualMap().Update(player);
+            rightGenerationLuck = 100;
+            leftGenerationLuck = 100; 
+            topGenerationLuck = 100;
+            bottomGenerationLuck = 100;
+            allMaps.Clear();
+            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100));
+            player.SetActualMap(allMaps.First());
         }
-        public static void DrawMap(this EntityPlayer player, SpriteBatch spriteBatch)
-        {
-            player.GetActualMap().Draw(spriteBatch);
-        }
+        public static void ActualMapUpdate(this EntityPlayer player, GameTime gameTime) => player.GetActualMap().Update(gameTime, player);
+        public static void DrawMap(this EntityPlayer player, SpriteBatch spriteBatch) => player.GetActualMap().Draw(spriteBatch);
     }
 }

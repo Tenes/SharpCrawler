@@ -1,9 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SharpCrawler
@@ -35,6 +30,12 @@ namespace SharpCrawler
             {
                 6, 12, 18, 24, 30, 36, 42
             };
+        }
+        public void Reset()
+        {
+            this.animated[0] = true;
+            this.animated[1] = true;
+            this.animated[2] = true;
         }
 
         public void AffectCharacterHp(byte hp)

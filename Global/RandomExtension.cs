@@ -7,9 +7,9 @@ namespace SharpCrawler
     {
 
         #region Choose
-        public static float Choose(this Random r, List<float> FloatList)
+        public static T Choose<T>(this Random r, List<T> list)
         {
-            return FloatList[r.Next(0, FloatList.Count)];
+            return list[r.Next(0, list.Count)];
         }
 
         #endregion

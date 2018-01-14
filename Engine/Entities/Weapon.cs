@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SharpCrawler
@@ -19,26 +13,13 @@ namespace SharpCrawler
         private bool minify;
         private Hitbox hitbox;
         private Entity.State direction;
-        public byte GetRelativeX()
-        {
-            return this.relativeX;
-        }
-        public byte GetRelativeY()
-        {
-            return this.relativeY;
-        }
-        public Sprite GetSkin()
-        {
-            return this.skin;
-        }            
-        public void SetHolder(Hand hand)
-        {
-            this.holder = hand;
-        }
-        public void SetState(Entity.State direction)
-        {
-            this.direction = direction;
-        }
+        public byte GetRelativeX() => this.relativeX;
+        public byte GetRelativeY() => this.relativeY;
+        public Sprite GetSkin() => this.skin;
+        public void SetHolder(Hand hand) => this.holder = hand;
+        public void SetState(Entity.State direction) => this.direction = direction;
+        public void SetSkinRotation(float piValue) => this.skin.SetRotation(piValue);
+        public void SetSkinDepth(float depth) => this.skin.SetDepth(depth);
         public Weapon(Sprite skin, byte damage, byte range)
         {
             this.relativeX = 9;
@@ -47,14 +28,6 @@ namespace SharpCrawler
             this.damage = damage;
             this.range = range;
             this.hitbox = new Hitbox(10, 22);
-        }
-        public void SetSkinRotation(float piValue)
-        {
-            this.skin.SetRotation(piValue);
-        }
-        public void SetSkinDepth(float depth)
-        {
-            this.skin.SetDepth(depth);
         }
         public void AnimateOnGround()
         {
@@ -80,18 +53,13 @@ namespace SharpCrawler
                 UIUtils.LinkWeaponToUI(this);
             }
         }
+        public void UpdateOnGround() => AnimateOnGround();
         public void UpdateOnGround(EntityPlayer entity)
         {
             AnimateOnGround();
             PickUp(entity);
         }
-        public void Update(int x, int y)
-        {
-            this.skin.SetPosition(x, y);
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            this.skin.DrawFromSpriteSheet(spriteBatch);
-        }
+        public void Update(int x, int y) => this.skin.SetPosition(x, y);
+        public void Draw(SpriteBatch spriteBatch) => this.skin.DrawFromSpriteSheet(spriteBatch);
     }
 }

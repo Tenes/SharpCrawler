@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -16,6 +11,7 @@ namespace SharpCrawler
         {
             this.weaponHolder = holderSkin;
         }
+        public void Reset() => this.weaponDisplayed = null;
         public void SetDisplayed(Weapon weapon)
         {
             this.weaponDisplayed = new Sprite(weapon.GetSkin());

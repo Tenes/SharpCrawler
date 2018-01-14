@@ -21,7 +21,7 @@ namespace SharpCrawler
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            //graphics.IsFullScreen = Settings.fullscreen;
+            graphics.IsFullScreen = Settings.fullscreen;
         }
 
         protected override void Initialize()
@@ -31,12 +31,14 @@ namespace SharpCrawler
             this.principalScene = new MainScene();
             this.gameCamera = new CameraClass(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, this.principalScene.GetPlayer());
             UIUtils.mainScene = this.principalScene;
+            this.principalScene.SetCamera(this.gameCamera);
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Ressources.LoadSprites(Content);
+            Ressources.LoadFonts(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -46,6 +48,7 @@ namespace SharpCrawler
             this.generalInput.SetCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
             this.principalScene.Update(gameTime, this.gameCamera, this.generalInput);
+            
             this.generalInput.SetOldStates(this.generalInput.GetKeyboardCurrentState(), this.generalInput.GetMouseCurrentState());
             base.Update(gameTime);
         }

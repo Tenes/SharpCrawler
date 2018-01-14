@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SharpCrawler
@@ -25,6 +20,8 @@ namespace SharpCrawler
         private int SpriteHeight;
         public float AnimationTime { get; set; }
         private float layerDepth;
+        private byte alpha;
+        private bool alphaBool;
 
         //SETTER-GETTER
         public Sprite SetColor(Color color)
@@ -76,7 +73,39 @@ namespace SharpCrawler
         {
             this.Source = source;
         }
-
+        public byte GetAlpha()
+        {
+            return this.alpha;
+        }
+        public void BlinkAlpha()
+        {
+            if(this.alpha == 45)
+                this.alphaBool = false;
+            else if(this.alpha == 255)
+                this.alphaBool = true;
+            
+            if(this.alphaBool)
+                this.alpha -= 14;
+            else
+                this.alpha += 14;
+            this.Color = new Color(this.Color, this.alpha);
+        }
+        public void Disappear()
+        {
+            if(this.alpha > 0)
+            {
+                this.alpha -= 5;
+                this.Color = new Color(Color.Transparent, this.alpha);
+                if(this.Scale > 0.1f) 
+                    this.Scale -= 0.1f;
+            }
+        }
+        public bool Disappeared()
+        {
+            if(this.alpha > 0)
+                return false;
+            return true;
+        }
         //CONSTRUCTOR
         public Sprite(string imageKey, int x, int y, float depth)
         {
@@ -91,6 +120,7 @@ namespace SharpCrawler
             this.Effects = SpriteEffects.None; //NO USE FOR NOW
             this.AnimationTime = 200;
             this.Origin = new Vector2(this.SpriteWidth / 2, this.SpriteWidth / 2);
+            this.alpha = 255;
         }
         public Sprite(string imageKey, int x, int y, float depth, Rectangle source = new Rectangle(), float scale = 1f, int destinationWidth = 0, int destinationHeight = 0)
         {
@@ -108,6 +138,7 @@ namespace SharpCrawler
             this.Scale = scale;
             this.Destination = new Rectangle(x, y, destinationWidth, destinationHeight);
             this.Origin = new Vector2(source.Width / 2, source.Height / 2);
+            this.alpha = 255;
         }
         public Sprite(Sprite sprite)
         {
@@ -125,6 +156,7 @@ namespace SharpCrawler
             this.Scale = sprite.Scale;
             this.Destination = sprite.Destination;
             this.Origin = sprite.Origin;
+            this.alpha = 255;
         }
         //PROPERTIES
         public int Width { get { return this.SpriteWidth; } }

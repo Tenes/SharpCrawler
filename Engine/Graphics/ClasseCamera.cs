@@ -13,14 +13,8 @@ namespace SharpCrawler
         private Entity follow;
 
         //SETTER-GETTER
-        public float GetPositionX()
-        {
-            return this.position.X;
-        }
-        public float GetPositionY()
-        {
-            return this.position.Y;
-        }
+        public float GetPositionX() => this.position.X;
+        public float GetPositionY() => this.position.Y;
 
         //CONSTRUCTOR
         public CameraClass(int width, int height, Entity elem)
@@ -30,6 +24,11 @@ namespace SharpCrawler
             this.width = width;
             this.height = height;
             this.follow = elem;
+        }
+        public void Refresh(Entity entity)
+        {
+            this.position = new Vector2(entity.GetPositionX() - width/2, entity.GetPositionY() - height/2);
+            this.follow = entity;
         }
 
         //METHODS

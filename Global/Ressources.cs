@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,6 +8,7 @@ namespace SharpCrawler
     public static class Ressources
     {
         public static Dictionary<string, Texture2D> sprites;
+        public static Dictionary<string, SpriteFont> fonts;
 
         //METHODS
         public static void LoadSprites(ContentManager content)
@@ -20,11 +17,11 @@ namespace SharpCrawler
 
             List<string> spr = new List<string>()
             {
-                "TextInput",
                 "UILives",
                 "UIWeapon",
                 "TileSet",
-                "Gear"
+                "PressedButton",
+                "UnpressedButton"
             };
 
             foreach (string sprite in spr)
@@ -32,9 +29,27 @@ namespace SharpCrawler
                 sprites.Add(sprite, content.Load<Texture2D>($"spr/{sprite}"));
             }
         }
+        public static void LoadFonts(ContentManager content)
+        {
+            fonts = new Dictionary<string, SpriteFont>();
+
+            List<string> fontName = new List<string>()
+            {
+                "MainFont"
+            };
+
+            foreach (string name in fontName)
+            {
+                fonts.Add(name, content.Load<SpriteFont>($"font/{name}"));
+            }
+        }
         public static Rectangle FlameGuy()
         {
             return new Rectangle(2*Settings.tileSize, 13*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle IcyBoy()
+        {
+            return new Rectangle(3*Settings.tileSize, 12*Settings.tileSize, Settings.tileSize, Settings.tileSize);
         }
         public static Rectangle Wall1()
         {

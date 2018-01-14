@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 
 namespace SharpCrawler
 {
@@ -16,22 +13,22 @@ namespace SharpCrawler
                             currentRightLuck,
                             currentTopLuck,
                             currentBottomLuck,
-                            currentStep;
+                            currentStep,
+                            endLuck;
         private static Random mapRng = new Random();
         private ObstacleType[,] centerMap;
         private Entity[] Environment;
         private List<Ground> Ground;
         private List<Obstacle> Obstacles;
         private List<Portal> Portals;
+        private List<EntityEnemy> Monsters;
         private Map LeftMap,
                     RightMap,
                     TopMap,
                     BottomMap;
         private Weapon pickableWeapon;
-        public void NullifyWeapon()
-        {
-            this.pickableWeapon = null;
-        }
+        public void NullifyWeapon() => this.pickableWeapon = null;
+        public void SetWeapon(Weapon weapon) => this.pickableWeapon = weapon;
         public Map(byte leftLuck, byte rightLuck, byte topLuck, byte bottomLuck, byte step)
         {
             currentLeftLuck = leftLuck;
@@ -39,6 +36,7 @@ namespace SharpCrawler
             currentTopLuck = topLuck;
             currentBottomLuck = bottomLuck;
             currentStep = step;
+            endLuck = 0;
             this.pickableWeapon = new Weapon(new Sprite("TileSet", 300, 300, 0.5f, Ressources.Sword1(), Settings.scale - 0.5f), 2, 5);
             this.initMap();
             this.GeneratePortals();
@@ -80,6 +78,7 @@ namespace SharpCrawler
             this.LeftMap = tempMap;
             tempMap.RightMap = this;
             tempMap.GeneratePortals(portalStart);
+            tempMap.GenerateMonsters();
             MapFactory.allMaps.Append(tempMap);
             entity.SetActualMap(tempMap);
         }
@@ -90,6 +89,7 @@ namespace SharpCrawler
             this.RightMap = tempMap;
             tempMap.LeftMap = this;
             tempMap.GeneratePortals(portalStart);
+            tempMap.GenerateMonsters();
             MapFactory.allMaps.Append(tempMap);
             entity.SetActualMap(tempMap);
         }
@@ -100,6 +100,7 @@ namespace SharpCrawler
             this.TopMap = tempMap;
             tempMap.BottomMap = this;
             tempMap.GeneratePortals(portalStart);
+            tempMap.GenerateMonsters();
             MapFactory.allMaps.Append(tempMap);
             entity.SetActualMap(tempMap);
         }
@@ -110,6 +111,7 @@ namespace SharpCrawler
             this.BottomMap = tempMap;
             tempMap.TopMap = this;
             tempMap.GeneratePortals(portalStart);
+            tempMap.GenerateMonsters();
             MapFactory.allMaps.Append(tempMap);
             entity.SetActualMap(tempMap);
         }
@@ -136,7 +138,6 @@ namespace SharpCrawler
             this.Ground = new List<Ground>();
             this.Obstacles = new List<Obstacle>();
             this.Portals = new List<Portal>();
-            int scaledPosition = (int)(Settings.tileSize * Settings.scale);
             for(int row = 0; row < this.centerMap.GetLength(0); row++)
             {
                 for(int column = 0; column < this.centerMap.GetLength(1); column++)
@@ -145,29 +146,49 @@ namespace SharpCrawler
                     switch(this.centerMap[row, column])
                     {
                         case ObstacleType.Wall1:
-                            tempEnv = EntityFactory.WallBuilder(Ressources.Wall1(), column*scaledPosition, row*scaledPosition, Settings.scale); 
+                            tempEnv = EntityFactory.WallBuilder(Ressources.Wall1(), column*Settings.scaledPosition, row*Settings.scaledPosition, Settings.scale); 
                             this.Obstacles.Add(tempEnv as Obstacle);
                             break;
                         case ObstacleType.AlternativeWall:
-                            tempEnv = EntityFactory.VoidOrAlternativeBuilder(Ressources.AlternativeWall(), column*scaledPosition, row*scaledPosition, Settings.scale);
+                            tempEnv = EntityFactory.VoidOrAlternativeBuilder(Ressources.AlternativeWall(), column*Settings.scaledPosition, row*Settings.scaledPosition, Settings.scale);
                             this.Obstacles.Add(tempEnv as Obstacle);
                             break;
                         case ObstacleType.Void:
-                            tempEnv = EntityFactory.VoidOrAlternativeBuilder(Ressources.Void(), column*scaledPosition, row*scaledPosition, Settings.scale);
+                            tempEnv = EntityFactory.VoidOrAlternativeBuilder(Ressources.Void(), column*Settings.scaledPosition, row*Settings.scaledPosition, Settings.scale);
                             this.Obstacles.Add(tempEnv as Obstacle);
                             break;
                         case ObstacleType.Portal:
-                            tempEnv = EntityFactory.PortalBuilder(column*scaledPosition, row*scaledPosition, Settings.scale);
+                            tempEnv = EntityFactory.PortalBuilder(column*Settings.scaledPosition, row*Settings.scaledPosition, Settings.scale);
                             this.Portals.Add(tempEnv as Portal);
                             break;
                         case ObstacleType.Floor1:
                         default:
-                            tempEnv = EntityFactory.FloorBuilder(column*scaledPosition, row*scaledPosition, Settings.scale);                        
+                            tempEnv = EntityFactory.FloorBuilder(column*Settings.scaledPosition, row*Settings.scaledPosition, Settings.scale);                        
                             this.Ground.Add(tempEnv as Ground);                        
                             break;
                     }
                     this.Environment[this.centerMap.GetLength(0)*row + column] = tempEnv; 
                 }
+            }
+        }
+        public void GenerateMonsters()
+        {
+            this.Monsters = new List<EntityEnemy>();
+            List<byte> xPositions = new List<byte>()
+            {
+                3, 4, 6, 7, 9, 10, 12, 13
+            };
+            List<byte> yPositions = new List<byte>()
+            {
+                3, 4, 6, 7, 9, 10, 12, 13
+            };
+            for(byte i = 0; i < mapRng.Next(2, 8); i++)
+            {
+                byte tempX = mapRng.Choose(xPositions);
+                byte tempY = mapRng.Choose(yPositions);
+                this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.IcyBoy(), tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, 4, 0.3f, 2f));
+                xPositions.Remove(tempX);
+                yPositions.Remove(tempY);
             }
         }
         private void GenerateLeftPortals()
@@ -295,25 +316,36 @@ namespace SharpCrawler
             }
         }
 
-        public void CollisionCheck(Entity entity)
+        public void Update(GameTime gametime, EntityPlayer player)
         {
-            for(int i = 0; i < this.Obstacles.Count; i++)
+            if(player.IsAlive())
             {
-                if(entity.Intersect(this.Obstacles[i]))
-                    entity.CancelUpdatePosition(this.Obstacles[i]);
+                player.CollisionCheck(this.Obstacles);
+                this.CheckWarp(player);
+                for(int i = 0; i < this.Monsters?.Count; i++)
+                {
+                    this.Monsters[i].Update(gametime, player);
+                    if(this.Monsters[i].IsAlive())
+                    {
+                        this.Monsters[i].CollisionCheck(this.Obstacles);
+                        foreach(Entity monster in this.Monsters)
+                            this.Monsters[i].CollisionCheck(monster);
+                        player.Collide(this.Monsters[i]);
+                    }
+                }
+                this.Monsters?.RemoveAll(monsters => monsters.Disappeared());
+                this.pickableWeapon?.UpdateOnGround(player);
             }
-        }
-        public void Update(EntityPlayer entity)
-        {
-            this.CollisionCheck(entity);
-            this.CheckWarp(entity);
-            this.pickableWeapon?.UpdateOnGround(entity);
+            else
+                this.pickableWeapon?.UpdateOnGround();
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             for(int i = 0; i < this.Environment.Length; i++)
                 this.Environment[i].Draw(spriteBatch);
+            for(int i = 0; i < this.Monsters?.Count; i++)
+                this.Monsters[i].Draw(spriteBatch);
             this.pickableWeapon?.Draw(spriteBatch);
         }
 
