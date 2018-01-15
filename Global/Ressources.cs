@@ -21,7 +21,8 @@ namespace SharpCrawler
                 "UIWeapon",
                 "TileSet",
                 "PressedButton",
-                "UnpressedButton"
+                "UnpressedButton",
+                "Background"
             };
 
             foreach (string sprite in spr)

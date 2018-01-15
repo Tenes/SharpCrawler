@@ -7,6 +7,7 @@ namespace SharpCrawler
 {
     public class MainScene
     {
+        private SharpCrawl game;
         private EntityPlayer player;
         private LivesDisplay livesUI;
         private WeaponDisplay weaponUI;
@@ -17,8 +18,10 @@ namespace SharpCrawler
         public LivesDisplay GetLivesUI() => this.livesUI;
         public void SetCamera(CameraClass camera) => this.gameCamera = camera;
         public CameraClass GetCamera() => this.gameCamera;
-        public MainScene()
+        public SharpCrawl GetGame() => this.game;
+        public MainScene(SharpCrawl game)
         {
+            this.game = game;
             this.player = EntityFactory.PlayerBuilder(Ressources.FlameGuy(), 100, 100, "John", 3f);
             MapFactory.FirstMap(this.player);
             this.livesUI = new LivesDisplay((int)this.player.GetPositionX() + 200, (int)this.player.GetPositionY() + 100);
@@ -32,6 +35,7 @@ namespace SharpCrawler
             this.gameCamera.Refresh(this.player);
             this.livesUI.Reset();
             this.weaponUI.Reset();
+            this.deathUI.Reset();
         }
         public void Update(GameTime gameTime, CameraClass camera, Input generalInput)
         {
@@ -42,7 +46,7 @@ namespace SharpCrawler
             if(!this.player.IsAlive())
                 this.deathUI.Update(camera.GetPositionX() + Settings.windowWidth*0.5f, camera.GetPositionY() + Settings.windowHeight*0.5f, generalInput);
         }
-        public void Draw(SpriteBatch spriteBatch, ContentManager Content)
+        public void Draw(SpriteBatch spriteBatch)
         {
             this.player.DrawMap(spriteBatch);
             this.player.Draw(spriteBatch);

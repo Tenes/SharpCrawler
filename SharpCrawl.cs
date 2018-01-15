@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,9 +12,13 @@ namespace SharpCrawler
         private SpriteBatch spriteBatch;
         private Input generalInput;
         private CameraClass gameCamera;
+        private StartingScene mainMenu;
         private MainScene principalScene;
+        private bool inGame;
         public static Random rng = new Random();
         
+        public MainScene GetMainScene() => this.principalScene;
+        public void SetGameState(bool boolean) => this.inGame = boolean;
         
 
         public SharpCrawl()
@@ -27,8 +32,10 @@ namespace SharpCrawler
         protected override void Initialize()
         {
             base.Initialize();
+            this.inGame = false;
             this.generalInput = new Input(Keyboard.GetState(), Keyboard.GetState(), Mouse.GetState(), Mouse.GetState());
-            this.principalScene = new MainScene();
+            this.mainMenu = new StartingScene(this);
+            this.principalScene = new MainScene(this);
             this.gameCamera = new CameraClass(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, this.principalScene.GetPlayer());
             UIUtils.mainScene = this.principalScene;
             this.principalScene.SetCamera(this.gameCamera);
@@ -47,7 +54,10 @@ namespace SharpCrawler
                 Exit();
             this.generalInput.SetCurrentStates(Keyboard.GetState(), Mouse.GetState());
 
-            this.principalScene.Update(gameTime, this.gameCamera, this.generalInput);
+            if(this.inGame)
+                this.principalScene.Update(gameTime, this.gameCamera, this.generalInput);
+            else
+                this.mainMenu.Update(generalInput);
             
             this.generalInput.SetOldStates(this.generalInput.GetKeyboardCurrentState(), this.generalInput.GetMouseCurrentState());
             base.Update(gameTime);
@@ -57,8 +67,16 @@ namespace SharpCrawler
         {
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: this.gameCamera.GetMatrix());
-            this.principalScene.Draw(this.spriteBatch, this.Content);
+            if(this.inGame)
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState: SamplerState.PointClamp, transformMatrix: this.gameCamera.GetMatrix());
+                this.principalScene.Draw(this.spriteBatch);
+            }
+            else
+            {
+                spriteBatch.Begin(SpriteSortMode.BackToFront);
+                this.mainMenu.Draw(this.spriteBatch);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

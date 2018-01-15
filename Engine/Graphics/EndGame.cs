@@ -40,11 +40,17 @@ namespace SharpCrawler
                ButtonEvent.Retry(button, scene);
                return true;
             });
-            this.ReturnButton = new Button("Save\nand\nExit", screenMiddleX + 100, screenMiddleY + 80, (button) => 
+            this.ReturnButton = new Button("Menu", screenMiddleX + 100, screenMiddleY + 80, (button) => 
             {
+               ButtonEvent.FromGameToMainMenu(button, scene);
                return true;
             });
         }
+        public void Reset()
+        {
+            this.mainText = randomPhrases[SharpCrawl.rng.Next(randomPhrases.Count)];
+            this.mainTextOrigin = this.font.MeasureString(this.mainText) * 0.5f;
+        } 
         public void Update(float x, float y, Input mouseState)
         {
             this.titleTextPosition.X = x;
@@ -57,7 +63,7 @@ namespace SharpCrawler
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(this.font, this.titleText, this.titleTextPosition, Color.IndianRed, 0, this.titleTextOrigin, 4f, SpriteEffects.None, 0.1f);
-            spriteBatch.DrawString(this.font, this.mainText, this.mainTextPosition, Color.Aquamarine, 0,  this.mainTextOrigin, 2f, SpriteEffects.None, 0.1f);
+            spriteBatch.DrawString(this.font, this.mainText, this.mainTextPosition, Color.LightSteelBlue, 0,  this.mainTextOrigin, 2f, SpriteEffects.None, 0.1f);
             this.RetryButton.Draw(spriteBatch);
             this.ReturnButton.Draw(spriteBatch);
         }
