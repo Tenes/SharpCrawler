@@ -14,7 +14,9 @@ namespace SharpCrawler
                             currentTopLuck,
                             currentBottomLuck,
                             currentStep,
-                            endLuck;
+                            currentEndLuck;
+        private static bool generatedEnd,
+                            generatedBoss;
         private static Random mapRng = new Random();
         private ObstacleType[,] centerMap;
         private Entity[] Environment;
@@ -36,14 +38,16 @@ namespace SharpCrawler
             else
                 return new List<EntityEnemy>();
         }
-        public Map(byte leftLuck, byte rightLuck, byte topLuck, byte bottomLuck, byte step)
+        public Map(byte leftLuck, byte rightLuck, byte topLuck, byte bottomLuck, byte step, byte endLuck)
         {
             currentLeftLuck = leftLuck;
             currentRightLuck = rightLuck;
             currentTopLuck = topLuck;
             currentBottomLuck = bottomLuck;
             currentStep = step;
-            endLuck = 0;
+            currentEndLuck = endLuck;
+            generatedEnd = false;
+            generatedBoss = false;
             this.pickableWeapon = new Weapon(new Sprite("TileSet", 300, 300, 0.5f, Ressources.Sword1(), Settings.scale - 0.5f), 2, 5, 0.4f);
             this.initMap();
             this.GeneratePortals();
@@ -124,23 +128,29 @@ namespace SharpCrawler
         }
         private void GeneratePortals(byte portalStart = 0)
         {
-            if(LeftMap == null)
+            if(this.LeftMap == null)
                 GenerateLeftPortals();
             else
                 PlaceLeftPortals(portalStart);
-            if(RightMap == null)
+            if(this.RightMap == null)
                 GenerateRightPortals();
             else
                 PlaceRightPortals(portalStart);
-            if(BottomMap == null)
+            if(this.BottomMap == null)
                 GenerateBottomPortals();
             else
                 PlaceBottomPortals(portalStart);
-            if(TopMap == null)
+            if(this.TopMap == null)
                 GenerateTopPortals();
             else
                 PlaceTopPortals(portalStart);
-
+            if(!generatedEnd)
+            {
+                if(mapRng.Next(1, 101) <= currentEndLuck)
+                    GenerateEndRoom();
+                else
+                    currentEndLuck += 15;
+            }
             this.Environment = new Entity[this.centerMap.Length];
             this.Ground = new List<Ground>();
             this.Obstacles = new List<Obstacle>();
@@ -178,6 +188,13 @@ namespace SharpCrawler
                 }
             }
         }
+        public void GenerateEndRoom()
+        {
+            for(int i = 6; i < 9; i++)
+                for(int y = 6; y < 9; y++)
+                    this.centerMap[y, i] = ObstacleType.Portal;
+            generatedEnd = true;
+        }
         public void GenerateMonsters()
         {
             this.Monsters = new List<EntityEnemy>();
@@ -199,7 +216,7 @@ namespace SharpCrawler
                     {
                         byte tempX = mapRng.Choose(xPositions);
                         byte tempY = mapRng.Choose(yPositions);
-                        this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.bestiary[mapRng.Next(Ressources.bestiary.Count)], tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, (byte)mapRng.Next(4,7), 0.4f, mapRng.Next(6,9), 2f));
+                        this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.normalBestiary[mapRng.Next(Ressources.normalBestiary.Count)], tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, (byte)mapRng.Next(4,7), 0.4f, mapRng.Next(6,9), 2f));
                         xPositions.Remove(tempX);
                         yPositions.Remove(tempY);
                     }
@@ -212,11 +229,20 @@ namespace SharpCrawler
                     {
                         byte tempX = mapRng.Choose(xPositions);
                         byte tempY = mapRng.Choose(yPositions);
-                        this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.bestiary[mapRng.Next(Ressources.bestiary.Count)], tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, (byte)mapRng.Next(2,4), 0.3f, mapRng.Next(8,11), 2f));
+                        this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.normalBestiary[mapRng.Next(Ressources.normalBestiary.Count)], tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, (byte)mapRng.Next(2,4), 0.3f, mapRng.Next(8,11), 2f));
                         xPositions.Remove(tempX);
                         yPositions.Remove(tempY);
                     }
                     break;
+            }
+            if(generatedEnd)
+            {
+                if(!generatedBoss)
+                {
+                    this.Monsters.Clear();
+                    this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.bossBestiary[mapRng.Next(Ressources.bossBestiary.Count)], 7 * Settings.scaledPosition, 9 * Settings.scaledPosition, 12, 0.7f, 7, 2f));
+                    generatedBoss = true;
+                }
             }
         }
         private void GenerateLeftPortals()
@@ -342,6 +368,8 @@ namespace SharpCrawler
                             WarpBottom(player, (this.centerMap[y, x-1] == ObstacleType.AlternativeWall)? (byte)(x-1) : (byte)(x-2));
                         else if(y == 0)
                             WarpTop(player, (this.centerMap[y, x-1] == ObstacleType.Wall1)? (byte)(x-1) : (byte)(x-2));
+                        if(x == 6 || x == 7 || x == 8)
+                            UIUtils.TriggerWin();
                     }
                 }
             }
@@ -382,6 +410,5 @@ namespace SharpCrawler
                 this.Monsters[i].Draw(spriteBatch);
             this.pickableWeapon?.Draw(spriteBatch);
         }
-
     }
 }

@@ -16,7 +16,8 @@ namespace SharpCrawler
         private static byte rightGenerationLuck = 100,
                             leftGenerationLuck = 100, 
                             topGenerationLuck = 100,
-                            bottomGenerationLuck = 100;
+                            bottomGenerationLuck = 100,
+                            endLuck = 0;
         public static void SetStep(byte newStep)
         {
             step = newStep;
@@ -27,7 +28,7 @@ namespace SharpCrawler
             leftGenerationLuck = 100; 
             topGenerationLuck = 100;
             bottomGenerationLuck = 100;
-            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100));
+            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100, endLuck));
             player.SetActualMap(allMaps.First());
         }
         public static void Reset(EntityPlayer player)
@@ -36,8 +37,9 @@ namespace SharpCrawler
             leftGenerationLuck = 100; 
             topGenerationLuck = 100;
             bottomGenerationLuck = 100;
+            endLuck = 0;
             allMaps.Clear();
-            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100));
+            allMaps.Add(new Map(leftGenerationLuck, rightGenerationLuck, topGenerationLuck, bottomGenerationLuck, 100, endLuck));
             player.SetActualMap(allMaps.First());
         }
         public static void ActualMapUpdate(this EntityPlayer player, GameTime gameTime) => player.GetActualMap().Update(gameTime, player);

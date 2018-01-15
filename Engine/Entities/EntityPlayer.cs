@@ -14,6 +14,7 @@ namespace SharpCrawler
         private Hand entityHand;
         private short invicibilityTime;
         private bool invicible;
+        public void SetSpeed(int speed) => this.speed = speed;
         public void SetActualMap(Map map) => this.actualMap = map;
         public Map GetActualMap() => this.actualMap;
         public Hand GetHand() => this.entityHand;

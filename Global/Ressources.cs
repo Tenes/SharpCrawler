@@ -9,7 +9,7 @@ namespace SharpCrawler
     {
         public static Dictionary<string, Texture2D> sprites;
         public static Dictionary<string, SpriteFont> fonts;
-        public static List<Rectangle> bestiary = new List<Rectangle>()
+        public static List<Rectangle> normalBestiary = new List<Rectangle>()
         {
             IcyBoy(),
             EarthKiddo(),
@@ -18,6 +18,12 @@ namespace SharpCrawler
             TreeDude(),
             SneezMonster(),
             WaterGuy()
+        };
+        public static List<Rectangle> bossBestiary = new List<Rectangle>()
+        {
+            MouthyFuck(),
+            Shrekou(),
+            EyeToy()
         };
 
         //METHODS
@@ -86,6 +92,18 @@ namespace SharpCrawler
         {
             return new Rectangle(3*Settings.tileSize, 12*Settings.tileSize, Settings.tileSize, Settings.tileSize);
         }
+        public static Rectangle Shrekou()
+        {
+            return new Rectangle(6*Settings.tileSize, 11*Settings.tileSize, 2*Settings.tileSize, 2*Settings.tileSize);
+        }
+        public static Rectangle EyeToy()
+        {
+            return new Rectangle(10*Settings.tileSize, 11*Settings.tileSize, 2*Settings.tileSize, 2*Settings.tileSize);
+        }
+        public static Rectangle MouthyFuck()
+        {
+            return new Rectangle(8*Settings.tileSize, 11*Settings.tileSize, 2*Settings.tileSize, 2*Settings.tileSize);
+        }
         public static Rectangle Wall1()
         {
             return new Rectangle(0*Settings.tileSize + 1, 0*Settings.tileSize, Settings.tileSize, 2*Settings.tileSize);
@@ -133,6 +151,14 @@ namespace SharpCrawler
         public static Rectangle ExtinguishedLive()
         {
             return new Rectangle(7*Settings.tileSize, 9*Settings.tileSize + 3, Settings.tileSize, Settings.tileSize + 4);
+        }
+        public static Rectangle GoldChest()
+        {
+            return new Rectangle(15*Settings.tileSize, 11*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle SilverChest()
+        {
+            return new Rectangle(14*Settings.tileSize, 11*Settings.tileSize, Settings.tileSize, Settings.tileSize);
         }
     }
 }

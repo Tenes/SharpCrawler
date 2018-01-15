@@ -10,5 +10,8 @@ namespace SharpCrawler
             livesUI.Reset();
             weaponUI.Reset();
         }
+        public static void TriggerWin(){
+            mainScene.WinScreen();
+        }
     }
 }
