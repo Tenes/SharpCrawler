@@ -29,6 +29,13 @@ namespace SharpCrawler
         private Weapon pickableWeapon;
         public void NullifyWeapon() => this.pickableWeapon = null;
         public void SetWeapon(Weapon weapon) => this.pickableWeapon = weapon;
+        public List<EntityEnemy> GetMonsters()
+        {
+            if(this.Monsters != null)
+                return this.Monsters;
+            else
+                return new List<EntityEnemy>();
+        }
         public Map(byte leftLuck, byte rightLuck, byte topLuck, byte bottomLuck, byte step)
         {
             currentLeftLuck = leftLuck;
@@ -37,7 +44,7 @@ namespace SharpCrawler
             currentBottomLuck = bottomLuck;
             currentStep = step;
             endLuck = 0;
-            this.pickableWeapon = new Weapon(new Sprite("TileSet", 300, 300, 0.5f, Ressources.Sword1(), Settings.scale - 0.5f), 2, 5);
+            this.pickableWeapon = new Weapon(new Sprite("TileSet", 300, 300, 0.5f, Ressources.Sword1(), Settings.scale - 0.5f), 2, 5, 0.4f);
             this.initMap();
             this.GeneratePortals();
         }
@@ -295,25 +302,30 @@ namespace SharpCrawler
                 entity.SetActualMap(entity.GetActualMap().TopMap);
             entity.SetOffsetPosition((int)((portalStart+1.5)  * Settings.tileSize * Settings.scale), (int)(14 *Settings.tileSize * Settings.scale));
         }
-        public void CheckWarp(EntityPlayer entity)
+        public void CheckWarp(EntityPlayer player)
         {
-            for(int i = 0; i < this.Portals.Count; i++)
+            if(this.Monsters == null || !this.Monsters.Any())
             {
-                if(entity.Intersect(this.Portals[i]))
+                for(int i = 0; i < this.Portals.Count; i++)
                 {
-                    byte index = (byte)Array.IndexOf(this.Environment, this.Portals[i]);
-                    byte x = (byte)(index%this.centerMap.GetLength(1));
-                    byte y = (byte)(index/this.centerMap.GetLength(0));
-                    if(x == 0)
-                        WarpLeft(entity, (this.centerMap[y-1, x] == ObstacleType.Wall1)? (byte)(y-1) : (byte)(y-2));
-                    else if(x == 15)
-                        WarpRigt(entity, (this.centerMap[y-1, x] == ObstacleType.Wall1)? (byte)(y-1) : (byte)(y-2));
-                    else if(y == 15)
-                        WarpBottom(entity, (this.centerMap[y, x-1] == ObstacleType.AlternativeWall)? (byte)(x-1) : (byte)(x-2));
-                    else if(y == 0)
-                        WarpTop(entity, (this.centerMap[y, x-1] == ObstacleType.Wall1)? (byte)(x-1) : (byte)(x-2));
+                    if(player.Intersect(this.Portals[i]))
+                    {
+                        byte index = (byte)Array.IndexOf(this.Environment, this.Portals[i]);
+                        byte x = (byte)(index%this.centerMap.GetLength(1));
+                        byte y = (byte)(index/this.centerMap.GetLength(0));
+                        if(x == 0)
+                            WarpLeft(player, (this.centerMap[y-1, x] == ObstacleType.Wall1)? (byte)(y-1) : (byte)(y-2));
+                        else if(x == 15)
+                            WarpRigt(player, (this.centerMap[y-1, x] == ObstacleType.Wall1)? (byte)(y-1) : (byte)(y-2));
+                        else if(y == 15)
+                            WarpBottom(player, (this.centerMap[y, x-1] == ObstacleType.AlternativeWall)? (byte)(x-1) : (byte)(x-2));
+                        else if(y == 0)
+                            WarpTop(player, (this.centerMap[y, x-1] == ObstacleType.Wall1)? (byte)(x-1) : (byte)(x-2));
+                    }
                 }
             }
+            else
+                player.CollisionCheck(this.Portals);
         }
 
         public void Update(GameTime gametime, EntityPlayer player)
@@ -331,6 +343,7 @@ namespace SharpCrawler
                         foreach(Entity monster in this.Monsters)
                             this.Monsters[i].CollisionCheck(monster);
                         player.Collide(this.Monsters[i]);
+                        this.Monsters[i].CollisionCheck(this.Portals);
                     }
                 }
                 this.Monsters?.RemoveAll(monsters => monsters.Disappeared());

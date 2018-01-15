@@ -10,9 +10,14 @@ namespace SharpCrawler
         private Hand holder;
         private byte damage;
         private byte range;
+        private float knockback;
         private bool minify;
         private Hitbox hitbox;
         private Entity.State direction;
+        public byte GetDamage() => this.damage;
+        public float GetKnockback() => this.knockback;
+        public byte GetRange() => this.range;
+        public float GetScale() => this.skin.GetScale();
         public byte GetRelativeX() => this.relativeX;
         public byte GetRelativeY() => this.relativeY;
         public Sprite GetSkin() => this.skin;
@@ -20,7 +25,7 @@ namespace SharpCrawler
         public void SetState(Entity.State direction) => this.direction = direction;
         public void SetSkinRotation(float piValue) => this.skin.SetRotation(piValue);
         public void SetSkinDepth(float depth) => this.skin.SetDepth(depth);
-        public Weapon(Sprite skin, byte damage, byte range)
+        public Weapon(Sprite skin, byte damage, byte range, float knockback)
         {
             this.relativeX = 9;
             this.relativeY = 12;
@@ -28,6 +33,7 @@ namespace SharpCrawler
             this.damage = damage;
             this.range = range;
             this.hitbox = new Hitbox(10, 22);
+            this.knockback = knockback;
         }
         public void AnimateOnGround()
         {

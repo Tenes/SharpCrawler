@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -51,7 +52,7 @@ namespace SharpCrawler
                 return true;
             return false;
         }
-        public void Attack(GameTime gameTime, int handX, int handY)
+        public void Attack(GameTime gameTime, int handX, int handY, List<EntityEnemy> monsters)
         {
             int tempX;
             int tempY = handY + (int)handPositions[this.actualFrame].Y;
@@ -78,6 +79,11 @@ namespace SharpCrawler
                 this.actualFrame = 0;
                 this.holder.SetAttacking(false);
             }
+            if(this.actualWeapon != null)
+                if(this.attackTimer > 4 && monsters.Any())
+                    for(int i = 0; i < monsters.Count; i++)
+                        if((monsters[i].GetOffsetPosition() - this.skin.GetPositionVector()).Length() - 10 <= Settings.tileSize * this.actualWeapon.GetScale())
+                            monsters[i].TakeDamages(this.actualWeapon.GetDamage(), Vector2.Multiply(monsters[i].GetOffsetPosition() - this.holder.GetOffsetPosition(), this.actualWeapon.GetKnockback()));
         }
         public void Update(int x, int y)
         {

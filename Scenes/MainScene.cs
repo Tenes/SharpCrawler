@@ -39,7 +39,7 @@ namespace SharpCrawler
         }
         public void Update(GameTime gameTime, CameraClass camera, Input generalInput)
         {
-            this.player.Update(gameTime, camera, generalInput);
+            this.player.Update(gameTime, camera, generalInput, this.player.GetActualMap().GetMonsters());
             this.player.ActualMapUpdate(gameTime);
             this.livesUI.Update(camera.GetPositionX() + Settings.windowWidth - 50, camera.GetPositionY()  + Settings.windowHeight - 160);
             this.weaponUI.Update(camera.GetPositionX() + Settings.windowWidth - 50, camera.GetPositionY()  + Settings.windowHeight - 25);

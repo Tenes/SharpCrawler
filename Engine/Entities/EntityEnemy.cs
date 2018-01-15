@@ -20,7 +20,10 @@ namespace SharpCrawler
         public override void TakeDamages(byte damage, Vector2 knockback)
         {
             this.velocity = Vector2.Add(this.velocity, knockback);
-            this.health -= damage;
+            if(this.health - damage >= 0)
+                this.health -= damage;
+            else
+                this.health = 0;
         }
         public bool Disappeared()
         {
@@ -31,7 +34,7 @@ namespace SharpCrawler
             Vector2 playerPosition = player.GetOffsetPosition();
             Vector2 tempVelocity = Vector2.Subtract(playerPosition, this.offsetPosition);
             tempVelocity.Normalize();
-            Vector2.Multiply(ref tempVelocity, delta*20, out tempVelocity);
+            Vector2.Multiply(ref tempVelocity, delta*10, out tempVelocity);
             this.velocity += tempVelocity;
         }
         //UPDATE & DRAW

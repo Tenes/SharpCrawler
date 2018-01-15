@@ -110,6 +110,12 @@ namespace SharpCrawler
                 if(this.Intersect(entities[i]))
                     this.CancelUpdatePosition(entities[i]);
         }
+        public void CollisionCheck(List<Portal> entities)
+        {
+            for(int i = 0; i < entities.Count; i++)
+                if(this.Intersect(entities[i]))
+                    this.CancelUpdatePosition(entities[i]);
+        }
         public void CollisionCheck(Entity otherEntity)
         {
             if(otherEntity == this)

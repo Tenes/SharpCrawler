@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -59,7 +60,7 @@ namespace SharpCrawler
                 }
             }
         }
-        public void UpdateHand(Input input, GameTime gameTime)
+        public void UpdateHand(Input input, GameTime gameTime, List<EntityEnemy> monsters)
         {
             if(input.IsMouseDown() && !this.attacking)
             {
@@ -72,7 +73,7 @@ namespace SharpCrawler
                                     (int)this.offsetPosition.Y+ 16);
             else
                 this.entityHand.Attack(gameTime, (this.currentAttackDirection == AttackDirection.AttackingLeft) ?(int)this.offsetPosition.X + 8:(int)this.offsetPosition.X - 8,
-                                    (int)this.offsetPosition.Y+ 16);
+                                    (int)this.offsetPosition.Y+ 16, monsters);
         }
         public void Mouvement(Input input, float delta)
         {
@@ -95,12 +96,12 @@ namespace SharpCrawler
         }
 
         //UPDATE & DRAW
-        public override void Update(GameTime gameTime, CameraClass camera, Input input)
+        public void Update(GameTime gameTime, CameraClass camera, Input input, List<EntityEnemy> monsters)
         {
             if(this.IsAlive())
             {
                 this.Mouvement(input, (float)gameTime.ElapsedGameTime.TotalSeconds);
-                this.UpdateHand(input, gameTime);
+                this.UpdateHand(input, gameTime, monsters);
                 this.DamageAnimation();
                 base.Update(gameTime, camera, input);
             }
