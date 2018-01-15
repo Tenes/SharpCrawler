@@ -148,8 +148,9 @@ namespace SharpCrawler
             {
                 if(mapRng.Next(1, 101) <= currentEndLuck)
                     GenerateEndRoom();
-                else
+                else if(this.LeftMap != null || this.TopMap != null || this.RightMap != null || this.BottomMap != null)
                     currentEndLuck += 15;
+                
             }
             this.Environment = new Entity[this.centerMap.Length];
             this.Ground = new List<Ground>();
@@ -368,7 +369,7 @@ namespace SharpCrawler
                             WarpBottom(player, (this.centerMap[y, x-1] == ObstacleType.AlternativeWall)? (byte)(x-1) : (byte)(x-2));
                         else if(y == 0)
                             WarpTop(player, (this.centerMap[y, x-1] == ObstacleType.Wall1)? (byte)(x-1) : (byte)(x-2));
-                        if(x == 6 || x == 7 || x == 8)
+                        else if((x == 6 || x == 7 || x == 8) && (y == 6 || y == 7 || y == 8))
                             UIUtils.TriggerWin();
                     }
                 }
