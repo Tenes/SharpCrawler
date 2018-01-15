@@ -6,6 +6,7 @@ Nothing too fancy, just a fun little project made to explore the possibility of 
 ## /!\ Install the font /!\
 The game uses a custom font named Bitty. Be sure to install it before doing anything.
 
+
 ## To Run:
 Clone all the repo into a folder and run the following commands:
 ```DIGITAL Command Language

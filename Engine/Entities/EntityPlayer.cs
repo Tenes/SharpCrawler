@@ -19,7 +19,7 @@ namespace SharpCrawler
         public Hand GetHand() => this.entityHand;
         public byte GetHealth() => this.health;
         //CONSTRUCTOR
-        public EntityPlayer(Sprite sprite,  bool realHitbox, string name, Hand hand, float knockback, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
+        public EntityPlayer(Sprite sprite,  bool realHitbox, string name, Hand hand, float knockback, int speed, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
                 : base(sprite, realHitbox, hitboxWidth, hitboxHeight, relativeX, relativeY, noHitbox)
         {
             this.name = name;
@@ -28,6 +28,7 @@ namespace SharpCrawler
             this.health = 3;
             this.invicibilityTime = 1560;
             this.knockback = knockback;
+            this.speed = speed;
         }
 
         //METHODS
@@ -78,18 +79,18 @@ namespace SharpCrawler
         public void Mouvement(Input input, float delta)
         {
             if (input.IsKeyDown(Keys.Z)) //Move up
-                this.velocity.Y -= (Settings.pixelRatio * delta) * 20;
+                this.velocity.Y -= (Settings.pixelRatio * delta) * this.speed;
             if (input.IsKeyDown(Keys.S)) //Move up
-                this.velocity.Y += (Settings.pixelRatio * delta) * 20;
+                this.velocity.Y += (Settings.pixelRatio * delta) * this.speed;
             if (input.IsKeyDown(Keys.Q)) //Move left
             {
-                this.velocity.X -= (Settings.pixelRatio*delta)*20;
+                this.velocity.X -= (Settings.pixelRatio*delta)*this.speed;
                 this.currentState = State.MovingLeft;
                 this.entityHand.GetWeapon()?.SetState(State.MovingLeft);
             }
             if (input.IsKeyDown(Keys.D)) //Move right
             {
-                this.velocity.X += (Settings.pixelRatio*delta)*20;
+                this.velocity.X += (Settings.pixelRatio*delta)*this.speed;
                 this.currentState = State.MovingRight;
                 this.entityHand.GetWeapon()?.SetState(State.MovingRight);
             }

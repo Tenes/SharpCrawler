@@ -22,7 +22,7 @@ namespace SharpCrawler
         public MainScene(SharpCrawl game)
         {
             this.game = game;
-            this.player = EntityFactory.PlayerBuilder(Ressources.FlameGuy(), 100, 100, "John", 3f);
+            this.player = EntityFactory.PlayerBuilder(Ressources.FlameGuy(), 100, 100, "John", 20, 3f);
             MapFactory.FirstMap(this.player);
             this.livesUI = new LivesDisplay((int)this.player.GetPositionX() + 200, (int)this.player.GetPositionY() + 100);
             this.weaponUI = new WeaponDisplay(new Sprite("UIWeapon", (int)this.player.GetPositionX() + 200, (int)this.player.GetPositionY() + 200, 0.2f));
@@ -30,7 +30,7 @@ namespace SharpCrawler
         }
         public void Restart()
         {
-            this.player = EntityFactory.PlayerBuilder(Ressources.FlameGuy(), 100, 100, "John", 3f);
+            this.player = EntityFactory.PlayerBuilder(Ressources.FlameGuy(), 100, 100, "John", 20, 3f);
             MapFactory.Reset(this.player);
             this.gameCamera.Refresh(this.player);
             this.livesUI.Reset();

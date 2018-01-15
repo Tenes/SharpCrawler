@@ -9,6 +9,16 @@ namespace SharpCrawler
     {
         public static Dictionary<string, Texture2D> sprites;
         public static Dictionary<string, SpriteFont> fonts;
+        public static List<Rectangle> bestiary = new List<Rectangle>()
+        {
+            IcyBoy(),
+            EarthKiddo(),
+            Skeleton(),
+            CapedStranger(),
+            TreeDude(),
+            SneezMonster(),
+            WaterGuy()
+        };
 
         //METHODS
         public static void LoadSprites(ContentManager content)
@@ -43,6 +53,30 @@ namespace SharpCrawler
             {
                 fonts.Add(name, content.Load<SpriteFont>($"font/{name}"));
             }
+        }
+        public static Rectangle Skeleton()
+        {
+            return new Rectangle(1*Settings.tileSize, 9*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle TreeDude()
+        {
+            return new Rectangle(4*Settings.tileSize, 12*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle WaterGuy()
+        {
+            return new Rectangle(1*Settings.tileSize, 12*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle SneezMonster()
+        {
+            return new Rectangle(5*Settings.tileSize, 12*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle EarthKiddo()
+        {
+            return new Rectangle(0*Settings.tileSize, 13*Settings.tileSize, Settings.tileSize, Settings.tileSize);
+        }
+        public static Rectangle CapedStranger()
+        {
+            return new Rectangle(5*Settings.tileSize, 11*Settings.tileSize, Settings.tileSize, Settings.tileSize);
         }
         public static Rectangle FlameGuy()
         {

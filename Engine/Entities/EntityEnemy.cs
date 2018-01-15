@@ -10,11 +10,12 @@ namespace SharpCrawler
             return this.health;
         }
         //CONSTRUCTOR
-        public EntityEnemy(Sprite sprite,  byte health, float knockback, bool realHitbox, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
+        public EntityEnemy(Sprite sprite,  byte health, float knockback, int speed, bool realHitbox, float hitboxWidth = 0, float hitboxHeight = 0, int relativeX = 0, int relativeY = 0, bool noHitbox = false)
                 : base(sprite, realHitbox, hitboxWidth, hitboxHeight, relativeX, relativeY, noHitbox)
         {
             this.health = health;
             this.knockback = knockback;
+            this.speed = speed;
         }
         
         public override void TakeDamages(byte damage, Vector2 knockback)
@@ -25,16 +26,13 @@ namespace SharpCrawler
             else
                 this.health = 0;
         }
-        public bool Disappeared()
-        {
-            return this.sprite.Disappeared();
-        }
+        public bool Disappeared() => this.sprite.Disappeared();
         public void AILogic(EntityPlayer player, float delta)
         {
             Vector2 playerPosition = player.GetOffsetPosition();
             Vector2 tempVelocity = Vector2.Subtract(playerPosition, this.offsetPosition);
             tempVelocity.Normalize();
-            Vector2.Multiply(ref tempVelocity, delta*10, out tempVelocity);
+            Vector2.Multiply(ref tempVelocity, delta*this.speed, out tempVelocity);
             this.velocity += tempVelocity;
         }
         //UPDATE & DRAW

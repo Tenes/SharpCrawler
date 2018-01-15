@@ -22,6 +22,7 @@ namespace SharpCrawler
         protected bool attacking;
         protected byte health;
         protected float knockback;
+        protected int speed;
 
         //SETTER-GETTER
         public float GetPositionX() => this.position.X;

@@ -189,13 +189,34 @@ namespace SharpCrawler
             {
                 3, 4, 6, 7, 9, 10, 12, 13
             };
-            for(byte i = 0; i < mapRng.Next(2, 8); i++)
+            byte mapDifficulty = (byte)mapRng.Next(2, 8);
+            switch(mapDifficulty)
             {
-                byte tempX = mapRng.Choose(xPositions);
-                byte tempY = mapRng.Choose(yPositions);
-                this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.IcyBoy(), tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, 4, 0.3f, 2f));
-                xPositions.Remove(tempX);
-                yPositions.Remove(tempY);
+                case 2:
+                case 3:
+                case 4:
+                    for(byte i = 0; i < mapDifficulty; i++)
+                    {
+                        byte tempX = mapRng.Choose(xPositions);
+                        byte tempY = mapRng.Choose(yPositions);
+                        this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.bestiary[mapRng.Next(Ressources.bestiary.Count)], tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, (byte)mapRng.Next(4,7), 0.4f, mapRng.Next(6,9), 2f));
+                        xPositions.Remove(tempX);
+                        yPositions.Remove(tempY);
+                    }
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                default:
+                    for(byte i = 0; i < mapDifficulty; i++)
+                    {
+                        byte tempX = mapRng.Choose(xPositions);
+                        byte tempY = mapRng.Choose(yPositions);
+                        this.Monsters.Add(EntityFactory.EnemyBuilder(Ressources.bestiary[mapRng.Next(Ressources.bestiary.Count)], tempX * Settings.scaledPosition, tempY * Settings.scaledPosition, (byte)mapRng.Next(2,4), 0.3f, mapRng.Next(8,11), 2f));
+                        xPositions.Remove(tempX);
+                        yPositions.Remove(tempY);
+                    }
+                    break;
             }
         }
         private void GenerateLeftPortals()
