@@ -14,7 +14,7 @@
 #---------------------------------- Content ---------------------------------#
 
 #begin font/MainFont.spritefont
-/copy:font/MainFont.spritefont
+/copy:font/MainFont.xnb
 
 #begin spr/TileSet.png
 /importer:TextureImporter
