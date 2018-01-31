@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace SharpCrawler
 {
@@ -37,7 +38,7 @@ namespace SharpCrawler
             this.position.X += (this.follow.GetOffsetPositionX() - this.position.X - (this.width/2))/speed;
             this.position.Y += (this.follow.GetOffsetPositionY() - this.position.Y - (this.height/2))/speed;
             return
-                Matrix.CreateTranslation(new Vector3(-this.position, 0.0f));
+                Matrix.CreateTranslation(new Vector3((float)-Math.Floor(this.position.X), (float)-Math.Floor(this.position.Y), 0.0f));
         }
     }
 }
