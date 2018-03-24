@@ -30,7 +30,7 @@ If you want to change the output directory you can use this command:
 dotnet publish -c Release -o FolderExample -r win10-x64
 ```
 
-## What the game look like:
+## What the game looks like:
 ![Imgur](https://i.imgur.com/tKglWgF.png)
 
 ![Imgur](https://i.imgur.com/wrYCEp2.png)
